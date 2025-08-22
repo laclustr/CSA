@@ -19,7 +19,7 @@ while True:
         existing_dirs.remove(next_dir_name)
         next_dir_name = get_next_numbered_name(existing_dirs)
     else:
-        os.mkdir(next_dir_name)
+        os.mkdir(next_dir_name.replace(prefix, ""))
         with open(os.path.join(next_dir_name, f"{next_dir_name}{file_extension}"), "w") as file:
             file.write(f"public class {next_dir_name} {{\n\tpublic static void main(String[] args) {{\n\t\t\n\t}}\n}}")
 
