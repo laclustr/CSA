@@ -67,10 +67,6 @@ public class GrantVancePSet0 {
 	public static int roundNum(double d) {
 		int dInt = (int) d;
 
-		if (dInt == d) {
-			return dInt;
-		}
-
 		if ((int) (d * 10) % 10 >= 5 ) {
 			return dInt + 1;
 		}
