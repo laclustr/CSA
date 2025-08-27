@@ -44,23 +44,23 @@ public class GrantVancePSet0 {
 
 	// Problem 6
 	public static void leastToGreatest(int x, int y, int z) {
-		if (x <= y && x <= z) {
-			if (y >= z) {
-				System.out.println("Ascending order: " + x + ", " + z + ", " + y);
-			} else {
-				System.out.println("Ascending order: " + x + ", " + y + ", " + z);
-			}
-		} else if (x >= y && x >= z){
-			if (z > y) {
-				System.out.println("Ascending order: " + y + ", " + z + ", " + x);
-			} else {
-				System.out.println("Ascending order: " + z + ", " + y + ", " + x);
-			}
-		} else if (y > z){
-			System.out.println("Ascending order: " + z + ", " + x + ", " + y);
-		} else {
-			System.out.println("Ascending order: " + y + ", " + x + ", " + z);
+		if (x > y) {
+			int temp = x;
+			x = y;
+			y = temp;
 		}
+		if (y > z) {
+			int temp = y;
+			y = z;
+			z = temp;
+		}
+		if (x > y) {
+			int temp = x;
+			x = y;
+			y = temp;
+		}
+			
+		System.out.println("Ascending order: " + x + ", " + y + ", " + z);
 	}
 
 	// Problem 7
@@ -102,8 +102,7 @@ public class GrantVancePSet0 {
 
 	// Problem 10
 	public static double calcForce(double m1, double m2, double r) {
-		final double G = 6.67 * Math.pow(10, -11);
-		return (G * m1 * m2) / (r * r);
+		return (6.67 * Math.pow(10, -11) * m1 * m2) / (r * r);
 	}
 
 	// Problem 11
@@ -113,14 +112,12 @@ public class GrantVancePSet0 {
 
 	// Problem 12
 	public static double yPosition(double vel, double t) {
-		final double G = -9.8;
-
-		return (0.5 * G * (t * t)) + (vel * t) + (0);
+		return (0.5 * -9.8 * (t * t)) + (vel * t) + (0);
 	}
 
 	// Problem 13
 	public static double triArea(double a, double b, double c) {
-		if (a + b < c || b + c < a || a + c < b) {
+		if (a + b <= c || b + c <= a || a + c <= b) {
 			return -1;
 		}
 
@@ -131,8 +128,6 @@ public class GrantVancePSet0 {
 
 	// Problem 14
 	public static double calcLJ(double eps, double sig, double r) {
-		double bck1 = Math.pow(sig / r, 12);
-		double bck2 = 0.5 * Math.pow(sig / r, 6);
-		return (48 * eps / (r * r)) * (bck1 - bck2);
+		return (48 * eps / (r * r)) * (Math.pow(sig / r, 12) - 0.5 * Math.pow(sig / r, 6));
 	}
 }
