@@ -36,6 +36,23 @@ public class GrantVancePset2 {
 		System.out.println(longestWord("the quick green fox"));  // green
 		System.out.println(longestWord("ap csa is easy")); 	     // easy
 		System.out.println(longestWord("strings are tricky")); 	 // strings
+
+		System.out.println(isHarshad(1000));                     // 213
+		System.out.println(isHarshad(1000000));                  // 95,428
+
+		System.out.println(sqrt(12039));                         // 109.72...
+		System.out.println(sqrt(25));                            // 5.0
+		System.out.println(sqrt(0.4));                           // .63245...
+
+		System.out.println(harmonicSum(10));                     // 2.9289
+		System.out.println(harmonicSum(1000));                   // 7.48547
+		System.out.println(harmonicSum(10000));                  // 9.78760
+
+		System.out.println(estimatePi());                        // something close to pi
+
+		makeSquares(10);                                         // one solid square, one hollow square
+
+		makePyramid(4);                                          // Pyramid of height 4
 	}
 
 	public static String minCat(String string1, String string2) {
@@ -183,6 +200,94 @@ public class GrantVancePset2 {
 		}
 
 		return longest;
+	}
+
+	private static boolean isHarshadHelper(int x) {
+		int sum = 0;
+		int kx = x;
+
+		while (kx > 0) {
+			sum += kx % 10;
+			kx /= 10;
+		}
+
+		if (sum != 0) return x % sum == 0;
+		return true;
+	}
+
+	public static int isHarshad(int n) {
+		int count = 0;
+
+		for (int i = 0; i < n; i++) {
+			if (isHarshadHelper(i)) count++;
+		}
+
+		return count;
+	}
+
+	public static double sqrt(double num) {
+		double t = num;
+		double threshold = 10e-15;
+
+		while (Math.abs(t * t - num) > threshold) {
+			t = (t + num / t) / 2;
+		}
+
+		return t;
+	}
+
+	public static double harmonicSum(double num) {
+		double sum = 0;
+
+		for (int i = 1; i <= num; i++) {
+			sum += 1.0 / i;
+		}
+
+		return sum;
+	}
+
+	public static double estimatePi() {
+		int nTimes = 65535;
+		double sum = 0.0;
+
+		for (int i = 1; i <= nTimes; i++) {
+			sum += 1.0 / (i * i);
+		}
+
+		return sqrt(6 * sum);
+	}
+
+	public static void makeSquares(int size) {
+		for (int j = 0; j < size; j++) {
+			for (int i = 0; i < 2 * size + 1; i++) {
+				if (i - size == 0) System.out.print(" ");
+				else if (
+					j > 0 && j < size - 1 && 
+					i < 2 * size && i > size + 1) {
+					System.out.print(" ");
+				}
+				else System.out.print("*");
+			}
+			System.out.println();
+		}
+	}
+
+	public static String multString(String str, int times) {
+		String newStr = "";
+
+		for (int i = 0; i < times; i++) {
+			newStr += str;
+		}
+
+		return newStr;
+	}
+
+	public static void makePyramid(int size) {
+		for (int level = 0; level < size; level++) {
+			System.out.print(multString(" ", size - level - 1));
+			System.out.print(multString("*", 2 * level + 1));
+			System.out.print(multString(" ", size / 2 * level) + "\n");
+		}
 	}
 
 
