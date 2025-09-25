@@ -50,9 +50,17 @@ public class GrantVancePset2 {
 
 		System.out.println(estimatePi());                        // something close to pi
 
-		makeSquares(10);                                         // one solid square, one hollow square
+		makeSquares(10);                                         // one solid square, one hollow square; side lengths 10
 
 		makePyramid(4);                                          // Pyramid of height 4
+
+		makeDiamond(3);                                          // Diamond of side length 4
+
+		System.out.println(nEncounters());                       // some integer number!
+
+		System.out.println(nBirthdays());                        // some integer number!
+	
+		System.out.println(pHasDisease(.01, .97));               // some double number!
 	}
 
 	public static String minCat(String string1, String string2) {
@@ -290,7 +298,108 @@ public class GrantVancePset2 {
 		}
 	}
 
-	
+	public static void makeDiamond(int n) {
+		for (int i = 1; i <= n; i++) {
+			if (i == 1) {
+				System.out.println(multString(" ", n - i) + "*");
+			} else {
+				System.out.println(multString(" ", n - i) + "*" + multString(" ", 2 * i - 3) + "*");
+			}
+		}
+
+		for (int i = n - 1; i >= 1; i--) {
+			if (i == 1) {
+				System.out.println(multString(" ", n - i) + "*");
+			} else {
+				System.out.println(multString(" ", n - i) + "*" + multString(" ", 2 * i - 3) + "*");
+			}
+		}
+	}
+
+	private static int randInt(int min, int max) {
+		return (int) (Math.random() * (max - min)) + min;
+	}
+
+	private static int encount() {
+		final int nPokemon = 150;
+
+		int nCaught = 0;
+		int nEncounters = 0;
+
+		while (nCaught < nPokemon) {
+			nEncounters++;
+
+			int chance = randInt(0, nPokemon);
+
+			if (chance < nPokemon - nCaught) nCaught++;
+		}
+
+		return nEncounters;
+	}
+
+	public static int nEncounters() {
+		final int trials = 10000;
+		int total = 0;
+		for (int i = 0; i < trials; i++) {
+			total += encount();
+		}
+		return total / trials;
+	}
+
+	private static int birth() {
+		final int nDays = 365;
+
+		int nPeople = 0;
+		int uniqueDays = 0;
+
+		while (true) {
+			nPeople++;
+			int chance = randInt(0, nDays);
+
+			if (nDays - uniqueDays > chance) uniqueDays++;
+			else break;
+		}
+		return nPeople;
+	}
+
+	public static int nBirthdays() {
+		final int trials = 10000;
+		int total = 0;
+        for (int i = 0; i < trials; i++) {
+            total += birth();
+        }
+        return total / trials;
+	}
+
+	public static double pHasDisease(double x, double g) {
+		final int trials = 100000;
+
+		int positives = 0;
+		int realPositives = 0;
+
+		for (int i = 0; i < trials; i++) {
+			boolean sick = Math.random() < x;
+
+			boolean positive;
+
+			if (sick) positive = Math.random() < g;
+			else positive = Math.random() > g;
+
+			if (positive && sick) realPositives++;
+			if (positive) positives++; 
+		}
+
+		return (double) realPositives / positives;
+	}
+
+	public static void getTraj(double h, double vi, double g, double theta, double dt) {
+		
+	}
+
+
+
+
+
 
 
 
