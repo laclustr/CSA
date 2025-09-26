@@ -1,6 +1,7 @@
 import java.util.HashMap;
 
 public class GrantVancePset2 {
+	/*
 	public static void main(String[] args) {
 		System.out.println(minCat("Hello", "Hi"));               // "loHi"
 		System.out.println(minCat("Hello", "java"));             // "ellojava"
@@ -61,8 +62,12 @@ public class GrantVancePset2 {
 		System.out.println(nBirthdays());                        // some integer number!
 	
 		System.out.println(pHasDisease(.01, .97));               // some double number!
+		
+		System.out.println(getTraj(20 , 5, -9.8, 65, 0.1));     // 5.494037
 	}
+	*/
 
+	// Problem 1
 	public static String minCat(String string1, String string2) {
 		int smallest;
 		if (string1.length() > string2.length()) {
@@ -77,6 +82,7 @@ public class GrantVancePset2 {
 		return shortStr1 + shortStr2;
 	}
 
+	// Problem 2
 	public static int countJava(String str) {
 		if (str.length() <= 3) return 0;
 
@@ -92,6 +98,7 @@ public class GrantVancePset2 {
 		return count;
 	}
 
+	// Problem 3
 	public static boolean isPalindrome(String str) {
 		String revString = "";
 
@@ -102,6 +109,7 @@ public class GrantVancePset2 {
 		return revString.equals(str);
 	}
 
+	// Problem 4
 	public static int sumString(String str) {
 		int total = 0;
 		String currSec = "";
@@ -120,6 +128,7 @@ public class GrantVancePset2 {
 		return total;
 	}
 
+	// Problem 5
 	public static boolean sameStarChars(String str) {
 		for (int i = 1; i < str.length() - 1; i++) {
 			if (str.charAt(i) == '*') {
@@ -129,6 +138,7 @@ public class GrantVancePset2 {
 		return true;
 	}
 
+	// Problem 6
 	public static boolean areAnagrams(String str1, String str2) {
 		if (str1.length() != str2.length()) return false;
 
@@ -155,6 +165,7 @@ public class GrantVancePset2 {
 		return counts1.equals(counts2);
 	}
 
+	// Problem 7
 	public static int longSubStringLen(String str) {
 		int maxLen = 0;
 
@@ -172,6 +183,7 @@ public class GrantVancePset2 {
 		return maxLen;
 	}
 
+	// Problem 8
 	public static boolean areRotations(String str1, String str2) {
 		if (str1.length() != str2.length()) return false;
 
@@ -189,6 +201,7 @@ public class GrantVancePset2 {
 		return false;
 	}
 
+	// Problem 9
 	public static String longestWord(String sent) {
 		String longest = "";
 		String curr    = "";
@@ -209,6 +222,7 @@ public class GrantVancePset2 {
 
 		return longest;
 	}
+	// End Problem 9
 
 	private static boolean isHarshadHelper(int x) {
 		int sum = 0;
@@ -223,6 +237,7 @@ public class GrantVancePset2 {
 		return true;
 	}
 
+	// Problem 10
 	public static int isHarshad(int n) {
 		int count = 0;
 
@@ -233,6 +248,7 @@ public class GrantVancePset2 {
 		return count;
 	}
 
+	// Problem 11
 	public static double sqrt(double num) {
 		double t = num;
 		double threshold = 10e-15;
@@ -244,6 +260,7 @@ public class GrantVancePset2 {
 		return t;
 	}
 
+	// Problem 12
 	public static double harmonicSum(double num) {
 		double sum = 0;
 
@@ -254,6 +271,7 @@ public class GrantVancePset2 {
 		return sum;
 	}
 
+	// Problem 13
 	public static double estimatePi() {
 		int nTimes = 65535;
 		double sum = 0.0;
@@ -265,6 +283,7 @@ public class GrantVancePset2 {
 		return sqrt(6 * sum);
 	}
 
+	// Problem 14
 	public static void makeSquares(int size) {
 		for (int j = 0; j < size; j++) {
 			for (int i = 0; i < 2 * size + 1; i++) {
@@ -279,8 +298,9 @@ public class GrantVancePset2 {
 			System.out.println();
 		}
 	}
-
-	public static String multString(String str, int times) {
+	// End Problem 14
+	
+	private static String multString(String str, int times) {
 		String newStr = "";
 
 		for (int i = 0; i < times; i++) {
@@ -290,6 +310,7 @@ public class GrantVancePset2 {
 		return newStr;
 	}
 
+	// Problem 15
 	public static void makePyramid(int size) {
 		for (int level = 0; level < size; level++) {
 			System.out.print(multString(" ", size - level - 1));
@@ -298,6 +319,7 @@ public class GrantVancePset2 {
 		}
 	}
 
+	// Problem 16
 	public static void makeDiamond(int n) {
 		for (int i = 1; i <= n; i++) {
 			if (i == 1) {
@@ -315,6 +337,7 @@ public class GrantVancePset2 {
 			}
 		}
 	}
+	// End Problem 16
 
 	private static int randInt(int min, int max) {
 		return (int) (Math.random() * (max - min)) + min;
@@ -337,6 +360,7 @@ public class GrantVancePset2 {
 		return nEncounters;
 	}
 
+	// Problem 17
 	public static int nEncounters() {
 		final int trials = 10000;
 		int total = 0;
@@ -345,6 +369,7 @@ public class GrantVancePset2 {
 		}
 		return total / trials;
 	}
+	// End Problem 17
 
 	private static int birth() {
 		final int nDays = 365;
@@ -362,6 +387,7 @@ public class GrantVancePset2 {
 		return nPeople;
 	}
 
+	// Problem 18
 	public static int nBirthdays() {
 		final int trials = 10000;
 		int total = 0;
@@ -371,6 +397,7 @@ public class GrantVancePset2 {
         return total / trials;
 	}
 
+	// Problem 19
 	public static double pHasDisease(double x, double g) {
 		final int trials = 100000;
 
@@ -392,8 +419,30 @@ public class GrantVancePset2 {
 		return (double) realPositives / positives;
 	}
 
-	public static void getTraj(double h, double vi, double g, double theta, double dt) {
-		
+	// Problem 20
+	public static double getTraj(double h, double vi, double g, double theta, double dt) {
+		theta *= Math.PI / 180;
+
+		double vx = vi * Math.cos(theta);
+		double vy = vi * Math.sin(theta);
+
+		double t = 0;
+
+		double x = 0;
+		double y = h;
+
+		System.out.println(x + " " + y);
+
+		while (y >= 0) {
+			t += dt;
+			x = vx * t;
+
+			y = h + vy * t + 0.5 * g * t * t;
+
+			System.out.println(x + " " + y);
+		}
+
+		return x;
 	}
 
 
