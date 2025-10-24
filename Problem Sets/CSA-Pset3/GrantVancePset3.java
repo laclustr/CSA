@@ -2,80 +2,91 @@ import java.util.*;
 import java.io.*;
 
 public class GrantVancePset3 {
+	/*
 	public static void main(String[] args) {
-		System.out.println(linSearch(new int[] {1, 3, 1, 2, 4}, 1)); // 0
-		System.out.println(linSearch(new int[] {1, 3, 1, 2, 4}, 3)); // 1
-		System.out.println(linSearch(new int[] {1, 3, 1, 2, 4}, 5)); // -1
+		int[] arr;
 
-		System.out.println(binSearch(new String[] {"apple", "banana", "lime", "yucca"}, "lime")); // 2
-		System.out.println(binSearch(new String[] {"apple", "banana", "lime", "yucca"}, "lemon")); // -1
+		System.out.println(linSearch(new int[] {1, 3, 1, 2, 4}, 1));                                                                         // 0
+		System.out.println(linSearch(new int[] {1, 3, 1, 2, 4}, 3));                                                                         // 1
+		System.out.println(linSearch(new int[] {1, 3, 1, 2, 4}, 5));                                                                         // -1
 
-		int[] arr = {2, 3, 1, -1, -4};
+		System.out.println(binSearch(new String[] {"apple", "banana", "lime", "yucca"}, "lime"));                                            // 2
+		System.out.println(binSearch(new String[] {"apple", "banana", "lime", "yucca"}, "lemon"));                                           // -1
+
+		arr = new int[] {2, 3, 1, -1, -4};
 		selSort(arr);
-		System.out.println(Arrays.toString(arr)); // [-4, -1, 1, 2, 3]
+		System.out.println(Arrays.toString(arr));                                                                                            // [-4, -1, 1, 2, 3]
 
 		arr = new int[] {2, 3, 1, -1, -4};
 		bubbleSort(arr);
-		System.out.println(Arrays.toString(arr)); // [-4, -1, 1, 2, 3]
+		System.out.println(Arrays.toString(arr));                                                                                            // [-4, -1, 1, 2, 3]
 
 		arr = new int[] {2, 3, 1, -1, -4};
 		insSort(arr);
-		System.out.println(Arrays.toString(arr)); // [-4, -1, 1, 2, 3]
+		System.out.println(Arrays.toString(arr));                                                                                            // [-4, -1, 1, 2, 3]
 
 		arr = new int[] {2, 3, 1, -1, -4};
 		shellSort(arr);
-		System.out.println(Arrays.toString(arr)); // [-4, -1, 1, 2, 3]
+		System.out.println(Arrays.toString(arr));                                                                                            // [-4, -1, 1, 2, 3]
 
-		System.out.println(isSorted(arr)); // true
+		System.out.println(isSorted(arr));                                                                                                   // true
 
-		System.out.println(gymnasticScore(new double[] {5, 5.5, 10.0, 9.0, 3.0, 6.5})); // 6.5
+		System.out.println(gymnasticScore(new double[] {5, 5.5, 10.0, 9.0, 3.0, 6.5}));                                                      // 6.5
 
-		System.out.println(hottestStreak(new int[] {-1, 2, -4, 2, -1, 2, 5, -5})); // 800
+		System.out.println(hottestStreak(new int[] {-1, 2, -4, 2, -1, 2, 5, -5}));                                                           // 800
 		
-		System.out.println(moreThanQuarter(new int[] {1, 2, 2, 6, 6, 6, 6, 7, 10})); // 6
-		System.out.println(moreThanQuarter(new int[] {1, 1})); // 1
+		System.out.println(moreThanQuarter(new int[] {1, 2, 2, 6, 6, 6, 6, 7, 10}));                                                         // 6
+		System.out.println(moreThanQuarter(new int[] {1, 1}));                                                                               // 1
 
 		arr = new int[] {1, 0, 2, 3, 0, 4, 5, 0};
 		shiftElements(arr);
-		System.out.println(Arrays.toString(arr)); // [1, 0, 0, 2, 3, 0, 0, 4]
+		System.out.println(Arrays.toString(arr));                                                                                            // [1, 0, 0, 2, 3, 0, 0, 4]
 
 		arr = new int[] {2, 0, 2, 1, 1, 0, 1};
 		sortColors(arr);
-		System.out.println(Arrays.toString(arr)); // [2, 2, 0, 0, 1, 1, 1]
+		System.out.println(Arrays.toString(arr));                                                                                            // [2, 2, 0, 0, 1, 1, 1]
 
-		System.out.println(indexOf("hello", "ll")); // 2
-		System.out.println(indexOf("hello", "x")); // -1
+		System.out.println(indexOf("hello", "ll"));                                                                                          // 2
+		System.out.println(indexOf("hello", "x"));                                                                                           // -1
 
-		System.out.println(rotatedMin(new int[] {3, 4, 5, 1, 2})); // 1
-		System.out.println(rotatedMin(new int[] {4, 5, 6, 7, 3})); // 3
+		System.out.println(rotatedMin(new int[] {3, 4, 5, 1, 2}));                                                                           // 1
+		System.out.println(rotatedMin(new int[] {4, 5, 6, 7, 3}));                                                                           // 3
 
-		System.out.println(minBribes(new int[] {1, 2, 3, 5, 4, 6, 7, 8})); // 1
-		System.out.println(minBribes(new int[] {4, 1, 2, 3})); // -1
-		System.out.println(minBribes(new int[] {2, 1, 5, 3, 4})); // 3
+		System.out.println(minBribes(new int[] {1, 2, 3, 5, 4, 6, 7, 8}));                                                                   // 1
+		System.out.println(minBribes(new int[] {4, 1, 2, 3}));                                                                               // -1
+		System.out.println(minBribes(new int[] {2, 1, 5, 3, 4}));                                                                            // 3
 
-		System.out.println(removePoms(new String[] {"red", "blue", "red", "red", "green"}, new int[] {1, 2, 3, 4, 5})); // 3
-		System.out.println(removePoms(new String[] {"red", "red", "blue", "red", "red"}, new int[] {2, 3, 4, 5, 1})); // 3
+		System.out.println(removePoms(new String[] {"red", "blue", "red", "red", "green"}, new int[] {1, 2, 3, 4, 5}));                      // 3
+		System.out.println(removePoms(new String[] {"red", "red", "blue", "red", "red"}, new int[] {2, 3, 4, 5, 1}));                        // 3
 		System.out.println(removePoms(new String[] {"red", "red", "blue", "blue", "green", "red", "red"}, new int[] {1, 2, 3, 4, 5, 6, 7})); // 10
 		
-		System.out.println(fineCalculator(2, 3, "CJ?CC?")); // 5
-		System.out.println(fineCalculator(2, 5, "??J???")); // 0
-		System.out.println(fineCalculator(1, 3, "C?J")); // 1
+		System.out.println(fineCalculator(2, 3, "CJ?CC?"));                                                                                  // 5
+		System.out.println(fineCalculator(2, 5, "??J???"));                                                                                  // 0
+		System.out.println(fineCalculator(1, 3, "C?J"));                                                                                     // 1
 
-		prizeMoney(363); // 333 30
-		prizeMoney(6666); // 3333 3333
-		prizeMoney(7636); // 7333 303
+		prizeMoney(363);                                                                                                                     // 333 30
+		prizeMoney(6666);                                                                                                                    // 3333 3333
+		prizeMoney(7636);                                                                                                                    // 7333 303
 
-		System.out.println(swapsToSave(new String[] {"S", "C", "C", "S", "S", "C"}, 6)); // 2
-		System.out.println(swapsToSave(new String[] {"S", "S"}, 1)); // -1
-		System.out.println(swapsToSave(new String[] {"C", "S", "C", "S", "S"}, 3)); // 5
+		System.out.println(swapsToSave(new String[] {"S", "C", "C", "S", "S", "C"}, 6));                                                     // 2
+		System.out.println(swapsToSave(new String[] {"S", "S"}, 1));                                                                         // -1
+		System.out.println(swapsToSave(new String[] {"C", "S", "C", "S", "S"}, 3));                                                          // 5
 
 		try {
 			File f = new File("message.txt");
 			decodeMessage(f);
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
-		}
+			
+				// Message 0:
+				// Unbeknownst to Anakin, the Emperor was manipulating him from
+				// the shadows. This ultimately led to Anakin's fall as a Sith
+				// lord.
+				// Message 1:
+				// After seeing her in action, Han offered Rey a permanent
+				// position as a member of his crew.
+			
+		} catch (FileNotFoundException e) {}
 	}
+	*/
 
 	// Problem 1
 	public static int linSearch(int[] arr, int key) {
@@ -337,6 +348,12 @@ public class GrantVancePset3 {
 	}
 	// End Problem 18
 
+	private static void swap(String[] arr, int idx1, int idx2) {
+		String temp = arr[idx1];
+		arr[idx1] = arr[idx2];
+		arr[idx2] = temp;
+	}
+
 	private static int calcDamage(String[] instr) {
 		int power = 1;
 		int damage = 0;
@@ -354,8 +371,21 @@ public class GrantVancePset3 {
 	// Problem 19
 	public static int swapsToSave(String[] instr, int field) {
 		int swaps = 0;
-		
-		return swaps;
+		while (true) {
+			int damage = calcDamage(instr);
+			if (damage <= field) return swaps;
+
+			int idx = -1;
+			for (int i = instr.length - 2; i >= 0; i--) {
+				if (instr[i].equals("C") && instr[i + 1].equals("S")) {
+					idx = i;
+					break;
+				}
+			}
+			if (idx == -1) return idx;
+			swap(instr, idx, idx + 1);
+			swaps++;
+		}
 	}
 	// End Problem 19
 
@@ -403,23 +433,4 @@ public class GrantVancePset3 {
 			System.out.println(msgs[i].getText());
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
