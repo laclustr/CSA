@@ -30,21 +30,113 @@ public class Show {
 		this.years = years;
 	}
 
-	// public static Show findShowByTitle(String title) {
+	public String getTitle() {
+		return title;
+	}
 
-	// }
+	public String[] getGenres() {
+		return genres;
+	}
 
-	// public static Show[] findShowsByGenre(String genre) {
+	public String[] getActors() {
+		return actors;
+	}
 
-	// }
+	public int[] getYears() {
+		return years;
+	}
 
-	// public static Show[] findShowsByActor(String actor) {
+	public String toString() {
+		return "Show(" + title + ", " + about + ", " + episodeDuration + ", " + Arrays.toString(years) + ")";
+	}
 
-	// }
+	public static Show findShowByTitle(Show[] shows, String title) {
+		for (Show show : shows) 
+			if (show.getTitle().equals(title)) return show;
+		return null;
+	}
 
-	// public static Show[] findShowsByRelease(int year) {
+	public static Show[] findShowsByGenre(Show[] shows, String genre) {
+		int count = 0;
+		for (Show show : shows) {
+			for (String sGenre : show.getGenres()) {
+				if (sGenre.equals(genre)) {
+					count++;
+					break;
+				}
+			}
+		}
 
-	// }
+		Show[] matchingShows = new Show[count];
+
+		int idx = 0;
+		for (Show show : shows) {
+			for (String sGenre : show.getGenres()) {
+				if (sGenre.equals(genre)) {
+					matchingShows[idx++] = show;
+					break;
+				}
+			}
+		}
+
+		return matchingShows;
+	}
+
+	public static Show[] findShowsByActor(Show[] shows, String actor) {
+		int count = 0;
+		for (Show show : shows) {
+			for (String sActor : show.getActors()) {
+				if (sActor.equals(actor)) {
+					count++;
+					break;
+				}
+			}
+		}
+
+		Show[] matchingShows = new Show[count];
+
+		int idx = 0;
+		for (Show show : shows) {
+			for (String sActor : show.getActors()) {
+				if (sActor.equals(actor)) {
+					matchingShows[idx++] = show;
+					break;
+				}
+			}
+		}
+		return matchingShows;
+	}
+
+	public static Show[] findShowsByRelease(Show[] shows, int year) {
+		int count = 0;
+		for (Show show : shows) {
+			for (int sYear : show.getYears()) {
+				if (sYear == year) {
+					count++;
+					break;
+				}
+			}
+		}
+
+		Show[] matchingShows = new Show[count];
+
+		int idx = 0;
+		for (Show show : shows) {
+			for (int sYear : show.getYears()) {
+				if (sYear == year) {
+					matchingShows[idx++] = show;
+					break;
+				}
+			}
+		}
+		return matchingShows;
+	}
+
+	private static void swap(Show[] shows, int idx1, int idx2) {
+		Show temp = shows[idx1];
+		shows[idx1] = shows[idx2];
+		shows[idx2] = temp;
+	}
 
 	// public static void sortShowsByTitle() {
 
@@ -57,21 +149,4 @@ public class Show {
 	// public static void sortShowsByYear() {
 
 	// }
-
-	public String toString() {
-		return "Show(" + title + ", " + about + ", " + episodeDuration + ", " + Arrays.toString(years) + ")";
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

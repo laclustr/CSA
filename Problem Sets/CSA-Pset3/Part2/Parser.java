@@ -12,9 +12,13 @@ public class Parser {
 
 			for (int i = 0; i < shows.length; i++) {
 				String[] line = scanner.nextLine().trim().split("=");
+
 				String title = line[0];
 				String about = line[1];
-				int episodeDuration = Integer.parseInt(line[2].trim());
+
+				String dur = line[2].trim();
+				int episodeDuration = dur.equals("nan") ? 0 : Integer.parseInt(dur);
+
 				String[] genres = line[3].split(", ");
 				String[] actors = line[4].split(", ");
 				double rating = Double.parseDouble(line[5].trim());
@@ -22,23 +26,17 @@ public class Parser {
 
 				String[] yrs = line[7].trim().split("-");
 				int start = Integer.parseInt(yrs[0]);
-				int end;
-				if (yrs.length > 1) end = Integer.parseInt(yrs[1]);
-				else end = Year.now().getValue();
+				int end = yrs.length > 1 ? Integer.parseInt(yrs[1]) : Year.now().getValue();
 
-				int difference = end - start + 1;
-				int[] years = new int[difference];
-				for (int j = 0; j < difference; j++) {
+				int[] years = new int[end - start + 1];
+				for (int j = 0; j < years.length; j++) {
 					years[j] = start + j;
 				}
 
-				Show show = new Show(title, about, episodeDuration, genres, actors, rating, votes, years);
-				shows[i] = show;
+				shows[i] = new Show(title, about, episodeDuration, genres, actors, rating, votes, years);
 			}
 
-			for (Show show : shows) {
-				System.out.println(show);
-			}
+			System.out.println(Show.findShowByTitle(shows, "The Office"));
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: " + e);
