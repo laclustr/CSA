@@ -46,8 +46,33 @@ public class Show {
 		return years;
 	}
 
+	public int getFirstYear() {
+		return years[0];
+	}
+
+	public int getLastYear() {
+		return years[years.length - 1];
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
 	public String toString() {
-		return "Show(" + title + ", " + about + ", " + episodeDuration + ", " + Arrays.toString(years) + ")";
+		return 
+		title + 
+		":\n" + 
+		"About - " +
+		about +
+		"\n Rating - " + 
+		rating + 
+		"\n Duration - " + 
+		episodeDuration + 
+		"\n Release Date - " + 
+		this.getFirstYear() + 
+		"\n Most Recent Episode Release Date - " +
+		this.getLastYear()
+		;
 	}
 
 	public static Show findShowByTitle(Show[] shows, String title) {
@@ -138,15 +163,39 @@ public class Show {
 		shows[idx2] = temp;
 	}
 
-	// public static void sortShowsByTitle() {
+	public static void sortShowsByTitle(Show[] shows) {
+		for (int i = 1; i < shows.length; i++) {
+			int j = i;
+			while (
+				j > 0 && 
+				shows[j].getTitle().compareTo(shows[j - 1].getTitle()) < 0
+			) {
+				swap(shows, j--, j);
+			}
+		}
+	}
 
-	// }
+	public static void sortShowsByRating(Show[] shows) {
+		for (int i = 1; i < shows.length; i++) {
+			int j = i;
+			while (
+				j > 0 && 
+				shows[j].getRating() > shows[j - 1].getRating()
+			) {
+				swap(shows, j--, j);
+			}
+		}
+	}
 
-	// public static void sortShowsByRating() {
-
-	// }
-
-	// public static void sortShowsByYear() {
-
-	// }
+	public static void sortShowsByYear(Show[] shows) {
+		for (int i = 1; i < shows.length; i++) {
+			int j = i;
+			while (
+				j > 0 && 
+				shows[j].getFirstYear() > shows[j - 1].getFirstYear()
+			) {
+				swap(shows, j--, j);
+			}
+		}
+	}
 }

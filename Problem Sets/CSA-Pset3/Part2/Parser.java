@@ -35,8 +35,12 @@ public class Parser {
 
 				shows[i] = new Show(title, about, episodeDuration, genres, actors, rating, votes, years);
 			}
-
-			System.out.println(Show.findShowByTitle(shows, "The Office"));
+			
+			Show.sortShowsByRating(shows);
+			Show.sortShowsByYear(shows);
+			for (int i = shows.length - 1; i > shows.length - 11; i--) {
+				System.out.println(shows[i]);
+			}
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Error: " + e);
