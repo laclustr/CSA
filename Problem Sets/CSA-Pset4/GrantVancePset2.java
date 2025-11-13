@@ -74,6 +74,20 @@ public class GrantVancePset2 {
 		}
 		return true;
 	}
+	// End Problem 4
+
+	private static int[] findCoords(int r, int c, int n) {
+		return findCoords(new int[] {r, c}, n);
+	}
+
+	private static int[] findCoords(int[] ogCoords, int n) {
+
+	}
+
+	// Problem 5
+	public static String[][] walkerPath(int n) {
+
+	}
 
 
 
