@@ -18,6 +18,8 @@ public class GrantVancePset2 {
 		b = new int[][] {{1, 0, 0}, {0, 3, 0}, {0, 0, 10}};
 		System.out.println(isDiagonal(a)); // false
 		System.out.println(isDiagonal(b)); // true
+
+		print2d(5);
 	}
 
 	private static void print2d(int[][] arr2) {
@@ -74,19 +76,24 @@ public class GrantVancePset2 {
 		}
 		return true;
 	}
-	// End Problem 4
-
-	private static int[] findCoords(int r, int c, int n) {
-		return findCoords(new int[] {r, c}, n);
-	}
-
-	private static int[] findCoords(int[] ogCoords, int n) {
-
-	}
 
 	// Problem 5
 	public static String[][] walkerPath(int n) {
+		String[][] grid = new String[2 * n + 1][2 * n + 1];
 
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				grid[i][j] = " ";
+			}
+		}
+
+		int[] coords = new int[] {0, 0};
+
+		int row = 0;
+		int col = 0;
+
+		grid[row][col] = "#";
+		return grid;
 	}
 
 
