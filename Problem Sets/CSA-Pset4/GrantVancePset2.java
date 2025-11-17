@@ -33,9 +33,11 @@ public class GrantVancePset2 {
 
 		// print2d(deadWalk(5));
 
-		System.out.println(avgEscapeChance(10));
+		// System.out.println(avgEscapeChance(10));
 
 		// ticTacToe();
+
+		slidePuzzle();
 	}
 
 	private static void print2d(int[][] arr2) {
@@ -120,7 +122,9 @@ public class GrantVancePset2 {
 	}
 
 	private static boolean inGrid(int[] c, int n) {
-		return c[0] >= -n && c[0] <= n && c[1] >= -n && c[1] <= n;
+		int row = row(n, c[1]);
+		int col = col(n, c[0]);
+		return row >= 0 && row <= 2*n && col >= 0 && col <= 2*n;
 	}
 
 	private static int[] add(int[] a, int[] b) {
@@ -283,7 +287,7 @@ public class GrantVancePset2 {
 				}
 			}
 
-			if (validCount == 0) { return false System.out.println("6");;
+			if (validCount == 0) { return false;}
 
 			int[] direction = validDirections[RNG.nextInt(validCount)];
 			addIP(coords, direction);
@@ -326,6 +330,29 @@ public class GrantVancePset2 {
 		}
 	}
 
+	private static boolean checkTicWin(String[][] board, String player) {
+		for (int i = 0; i < board.length; i++) {
+			if (board[i][0].equals(player) && 
+				board[i][1].equals(player) && 
+				board[i][2].equals(player)) return true;
+		}
+
+		for (int i = 0; i < board[0].length; i++) {
+			if (board[0][i].equals(player) && 
+				board[1][i].equals(player) && 
+				board[2][i].equals(player)) return true;
+		}
+
+		if (board[0][0].equals(player) && 
+			board[1][1].equals(player) && 
+			board[2][2].equals(player)) return true;
+		if (board[0][2].equals(player) && 
+			board[1][1].equals(player) && 
+			board[2][0].equals(player)) return true;
+
+		return false;
+	}
+
 	// Problem 10
 	public static void ticTacToe() {
 		String[][] board = 
@@ -337,20 +364,50 @@ public class GrantVancePset2 {
 
 		boolean x = true;
 
+		printTicBoard(board);
+
 		while (!full(board)) {
-			printTicBoard(board);
 			
 			String player = (x ? "X" : "O");
 			System.out.println(player + "'s turn");
 
 			System.out.print("Enter move (row col): ");
-			String inpt = scanner.nextLine();
+			String[] inpt = scanner.nextLine().trim().split(" ");
+			int row = Integer.parseInt(inpt[0]) - 1;
+			int col = Integer.parseInt(inpt[1]) - 1;
 
-			int[] coords = {0};
-			break;
+			if (!board[row][col].equals(" ")) continue;
+			else board[row][col] = player;
+
+			printTicBoard(board);
+
+			if (checkTicWin(board, player)) {
+				System.out.println(player + " Wins!");
+				break;
+			}
+
+			x = !x;
 		}
+	}
+	// End Problem 10
 
+	private static int[][] slideBoard(int size) {
+		int[][] board = new int[size][size];
+		int n = 0;
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				board[i][j] = ++n;
+			}
+		}
+		board[size - 1][size - 1] = 0;
+		
+		return board;
+	}
 
+	// Problem 11
+	public static void slidePuzzle() {
+		int[][] board = slideBoard(3);
+		print2d(board);
 	}
 
 
