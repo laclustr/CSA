@@ -283,7 +283,7 @@ public class GrantVancePset2 {
 				}
 			}
 
-			if (validCount == 0) return false;
+			if (validCount == 0) { return false System.out.println("6");;
 
 			int[] direction = validDirections[RNG.nextInt(validCount)];
 			addIP(coords, direction);
@@ -299,11 +299,11 @@ public class GrantVancePset2 {
 	public static double avgEscapeChance(int n) {
 		long total = 0;
 
-		for (int i = 0; i < TRIALS; i++) {
+		for (int i = 0; i < 10; i++) {
 			if (selfWalk(n)) total++;
 		}
 
-		return total / (float) TRIALS;
+		return total / (float) 10;
 	}
 	// End Problem 9
 
