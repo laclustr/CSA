@@ -2,7 +2,17 @@ import java.util.*;
 
 public class GrantVancePset2 {
 	public static final int TRIALS = 1000000;
+	public static final int SHUFFLE_AMT = 100;
 	public static final int[][] DIRECTIONS = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+	public static final Map<String, Integer> DIRECTION_MAP = new HashMap<>();
+
+	static {
+    	DIRECTION_MAP.put("w", 1);
+    	DIRECTION_MAP.put("a", 3);
+    	DIRECTION_MAP.put("s", 0);
+    	DIRECTION_MAP.put("d", 2);
+	}
 
 	public static final Random RNG = new Random();
 	public static final Scanner scanner = new Scanner(System.in);
@@ -37,7 +47,24 @@ public class GrantVancePset2 {
 
 		// ticTacToe();
 
-		slidePuzzle();
+		// slidePuzzle();
+
+		int[][] puzzle = {
+			{5, 3, 0, 0, 7, 0, 0, 0, 0},
+			{6, 0, 0, 1, 9, 5, 0, 0, 0},
+			{0, 9, 8, 0, 0, 0, 0, 6, 0},
+
+			{8, 0, 0, 0, 6, 0, 0, 0, 3},
+			{4, 0, 0, 8, 0, 3, 0, 0, 1},
+			{7, 0, 0, 0, 2, 0, 0, 0, 6},
+
+			{0, 6, 0, 0, 0, 0, 2, 8, 0},
+			{0, 0, 0, 4, 1, 9, 0, 0, 5},
+			{0, 0, 0, 0, 8, 0, 0, 7, 9}
+		};
+
+		sudoku(puzzle);
+
 	}
 
 	private static void print2d(int[][] arr2) {
@@ -391,6 +418,11 @@ public class GrantVancePset2 {
 	}
 	// End Problem 10
 
+	private static boolean inSlide(int[][] board, int row, int col) {
+		if (row < board.length && row >= 0 && col < board[0].length && col >= 0) return true;
+		return false;
+	}
+
 	private static int[][] slideBoard(int size) {
 		int[][] board = new int[size][size];
 		int n = 0;
@@ -400,16 +432,205 @@ public class GrantVancePset2 {
 			}
 		}
 		board[size - 1][size - 1] = 0;
-		
+
 		return board;
+	}
+
+	private static boolean slideSolved(int[][] board) {
+		int curr = 1;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length; j++) {
+				if (i == board.length - 1 && j == board[0].length - 1)
+					return board[i][j] == 0;
+
+				if (board[i][j] != curr) return false;
+
+				curr++;
+			}
+		}
+		return true;
+	}
+
+	private static int[][] getAvailDirs(int[][] board, int row, int col) {
+		int[][] dirs = new int[4][2];
+		int ct = 0;
+		for (int[] direction : DIRECTIONS) {
+			int nr = row + direction[0];
+			int nc = col + direction[1];
+
+			if (inSlide(board, nr, nc)) {
+				dirs[ct++] = new int[] {nr, nc};
+			}
+		}
+		return Arrays.copyOfRange(dirs, 0, ct);
+	}
+
+	private static int[] slideShuffle(int[][] board) {
+		int zr = board.length - 1;
+		int zc = board[0].length - 1;
+
+		for (int i = 0; i < SHUFFLE_AMT; i++) {
+			int[][] dirs = getAvailDirs(board, zr, zc);
+			if (dirs.length == 0) continue;
+
+			int[] coords = dirs[RNG.nextInt(dirs.length)];
+
+			int r = coords[0];
+			int c = coords[1];
+
+			board[zr][zc] = board[r][c];
+			board[r][c] = 0;
+
+			zr = r;
+			zc = c;
+		}
+
+		return new int[] {zr, zc};
 	}
 
 	// Problem 11
 	public static void slidePuzzle() {
 		int[][] board = slideBoard(3);
+
+		int[] coords = slideShuffle(board);
+		int r = coords[0];
+		int c = coords[1];
+
+		int n = 0;
+
 		print2d(board);
+
+		while (!slideSolved(board)) {
+			System.out.print("Enter (wasd) to move zero: ");
+
+			String inpt = scanner.nextLine().trim();
+			int[] d = DIRECTIONS[DIRECTION_MAP.get(inpt)];
+			int nr = d[0] + r;
+			int nc = d[1] + c;
+
+			if (!inSlide(board, nr, nc)) {
+				System.out.println("Invalid Move!");
+				continue;
+			}
+
+			board[r][c] = board[nr][nc];
+			board[nr][nc] = 0;
+
+			r = nr;
+			c = nc;
+
+			print2d(board);
+			n++;
+		}
+		System.out.println("You Win in " + n + " moves!");
+	}
+	// End Problem 11
+
+	// Problem 12
+
+	// End Problem 12
+
+	private static String mulStr(String str, int n) {
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < n; i++) {
+			sb.append(str);
+		}
+
+		return sb.toString();
 	}
 
+	private static void printSudoku(int[][] board) {
+		for (int i = 0; i < board.length; i++) {
+			if (i % 3 == 0) {
+				System.out.println(mulStr("-", board[0].length * 3 - 2));
+			}
+			for (int j = 0; j < board[i].length; j++) {
+				if (j % 3 == 0) {
+					System.out.print("| ");
+				}
+				System.out.print(board[i][j] + " ");
+			}
+			System.out.println(("|"));
+		}
+		System.out.println(mulStr("-", board[0].length * 3 - 2));
+	}
+
+	private static boolean sudokuValid(int r, int c, int v, int[][] puzzle) {
+		if (r < 0 || r > puzzle.length - 1) return false;
+		if (c < 0 || c > puzzle[0].length - 1) return false;
+		if (v < 1 || v > 9) return false;
+
+		return true;
+	}
+
+	private static boolean sudokuSolved(int[][] puzzle) {
+		int[] sorted = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+		for (int[] row : puzzle) {
+			int[] copy = row.clone();
+			Arrays.sort(copy);
+			if (!Arrays.equals(copy, sorted)) return false;
+		}
+
+		for (int col = 0; col < puzzle[0].length; col++) {
+			int[] colArr = new int[puzzle.length];
+			for (int row = 0; row < 9; row++) colArr[row] = puzzle[row][col];
+
+			Arrays.sort(colArr);
+			if (!Arrays.equals(colArr, sorted)) return false;
+		}
+
+		for (int row = 0; row < puzzle.length; row += 3) {
+			for (int col = 0; col < puzzle[0].length; col += 3) {
+				int[] block = new int[9];
+				int idx = 0;
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 3; j++) {
+						block[idx++] = puzzle[row+i][col+j];
+					}
+				}
+				
+				Arrays.sort(block);
+				if (!Arrays.equals(block, sorted)) return false;
+			}
+		}
+		return true;
+	}
+
+	// Problem 13
+	public static void sudoku(int[][] puzzle) {
+		int[][] OG = new int[puzzle.length][puzzle[0].length];
+		for (int i = 0; i < puzzle.length; i++) {
+			OG[i] = puzzle[i].clone();
+		}
+
+		printSudoku(puzzle);
+
+		while (!sudokuSolved(puzzle)) {
+			System.out.print("Enter move (row col num): ");
+			String inpt = scanner.nextLine().trim();
+
+			String[] parts = inpt.split("\\s+");
+			if (parts.length != 3) continue;
+
+			int row = Integer.parseInt(parts[0]) - 1;
+			int col = Integer.parseInt(parts[1]) - 1;
+			int val = Integer.parseInt(parts[2]);
+
+			if (!sudokuValid(row, col, val, puzzle)) continue;
+
+			if (OG[row][col] != 0) continue;
+			
+			puzzle[row][col] = val;
+
+			printSudoku(puzzle);
+		}
+		System.out.println("You Win!");
+	}
+	// End Problem 13
+
+	
 
 
 
