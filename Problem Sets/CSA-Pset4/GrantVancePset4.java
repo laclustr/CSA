@@ -51,21 +51,23 @@ public class GrantVancePset2 {
 
 		// slidePuzzle();
 
-		int[][] puzzle = {
-			{5, 3, 0, 0, 7, 0, 0, 0, 0},
-			{6, 0, 0, 1, 9, 5, 0, 0, 0},
-			{0, 9, 8, 0, 0, 0, 0, 6, 0},
+		tw48();
 
-			{8, 0, 0, 0, 6, 0, 0, 0, 3},
-			{4, 0, 0, 8, 0, 3, 0, 0, 1},
-			{7, 0, 0, 0, 2, 0, 0, 0, 6},
+		// int[][] puzzle = {
+		// 	{5, 3, 0, 0, 7, 0, 0, 0, 0},
+		// 	{6, 0, 0, 1, 9, 5, 0, 0, 0},
+		// 	{0, 9, 8, 0, 0, 0, 0, 6, 0},
 
-			{0, 6, 0, 0, 0, 0, 2, 8, 0},
-			{0, 0, 0, 4, 1, 9, 0, 0, 5},
-			{0, 0, 0, 0, 8, 0, 0, 7, 9}
-		};
+		// 	{8, 0, 0, 0, 6, 0, 0, 0, 3},
+		// 	{4, 0, 0, 8, 0, 3, 0, 0, 1},
+		// 	{7, 0, 0, 0, 2, 0, 0, 0, 6},
 
-		sudoku(puzzle);
+		// 	{0, 6, 0, 0, 0, 0, 2, 8, 0},
+		// 	{0, 0, 0, 4, 1, 9, 0, 0, 5},
+		// 	{0, 0, 0, 0, 8, 0, 0, 7, 9}
+		// };
+
+		// sudoku(puzzle);
 
 	}
 
@@ -539,14 +541,17 @@ public class GrantVancePset2 {
 
 	// private static void spawnTile(int[][] board) {
 	// 	int val = RNG.next() < 0.9 ? 2 : 4;
-	// 	int 
 
 	// 	while (true) {
-	// 		if 
+	// 		int row = RNG.nextInt(board.length);
+	// 		int col = RNG.nextInt(board[0].length);
+
+	// 		if (board[row][col] == 0) {
+	// 			board[row][col] == val;
+	// 			break;
+	// 		}
 	// 	}
 	// }
-
-
 
 	// private static void printBoard(int[][] board, int score) {
 	// 	System.out.println("\nScore: " + score);
@@ -563,15 +568,51 @@ public class GrantVancePset2 {
 	// 	System.out.println(mulStr("-", board[0].length * 3 - 2));
 	// }
 
+	// private static int[] compress(int[] row) {
+	// 	int[] newRow = new int[row.length];
+
+	// 	int i = 0;
+	// 	for (int n : row) {
+	// 		if (n != 0) newRow[idx++] = n;
+	// 	}
+
+	// 	return newRow;
+	// }
+
+	// private static int[] merge(int[] row, int[] scoreHolder) {
+	// 	int[] newRow = row.clone();
+
+	// 	for (int i = 0; i < newRow.length - 1; i++) {
+	// 		if (newRow[i] != 0 && newRow[i] = newRow[i + 1]) {
+	// 			newRow[i] *= 2;
+	// 			scoreHold
+	// 		}
+	// 	}
+
 	// // Problem 12
 	// public static void tw48() {
 	// 	int[][] board = new int[BOARDSIZE][BOARDSIZE];
+	// 	int score = 0;
 
 	// 	spawnTile(board);
 	// 	spawnTile(board);
 
-	// 	while (!has2048) {
+	// 	while (!has2048(board)) {
+	// 		printBoard(board, score);
 
+	// 		System.out.print("Move (wasd): ");
+	// 		String move = scanner.nextLine().trim().toLowerCase();
+	// 		if (move.equals("")) continue;
+
+	// 		boolean moved = false;
+
+	// 		if (move.equals("w")) moved = moveUp(board);
+	// 		if (move.equals("a")) moved = moveLeft(board);
+	// 		if (move.equals("s")) moved = moveDown(board);
+	// 		if (move.equals("d")) moved = moveRight(board);
+
+	// 		if (moved) spawnTile(board);
+	// 		else System.out.println();
 	// 	}
 	// }
 
@@ -675,43 +716,6 @@ public class GrantVancePset2 {
 		}
 		System.out.println("You Win!");
 	}
-	// End Problem 13
-	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	// Problem 14 & 15 on separate files
 }
