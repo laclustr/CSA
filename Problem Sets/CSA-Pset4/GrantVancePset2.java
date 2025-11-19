@@ -5,6 +5,8 @@ public class GrantVancePset2 {
 	public static final int SHUFFLE_AMT = 100;
 	public static final int[][] DIRECTIONS = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
+	public static final int BOARDSIZE = 4;
+
 	public static final Map<String, Integer> DIRECTION_MAP = new HashMap<>();
 
 	static {
@@ -526,7 +528,52 @@ public class GrantVancePset2 {
 	}
 	// End Problem 11
 
-	// Problem 12
+	// private static boolean has2048(int[][] board) {
+	// 	for (int[] row : board) {
+	// 		for (int n : row) {
+	// 			if (n >= 2048) return true;
+	// 		}
+	// 	}
+	// 	return false;
+	// }
+
+	// private static void spawnTile(int[][] board) {
+	// 	int val = RNG.next() < 0.9 ? 2 : 4;
+	// 	int 
+
+	// 	while (true) {
+	// 		if 
+	// 	}
+	// }
+
+
+
+	// private static void printBoard(int[][] board, int score) {
+	// 	System.out.println("\nScore: " + score);
+
+	// 	for (int i = 0; i < board.length; i++) {
+	// 		if (i == 0) {
+	// 			System.out.println(mulStr("-", board[0].length * 3 - 2));
+	// 		}
+	// 		for (int j = 0; j < board[i].length; j++) {
+	// 			System.out.print(board[i][j] + " ");
+	// 		}
+	// 		System.out.println(("|"));
+	// 	}
+	// 	System.out.println(mulStr("-", board[0].length * 3 - 2));
+	// }
+
+	// // Problem 12
+	// public static void tw48() {
+	// 	int[][] board = new int[BOARDSIZE][BOARDSIZE];
+
+	// 	spawnTile(board);
+	// 	spawnTile(board);
+
+	// 	while (!has2048) {
+
+	// 	}
+	// }
 
 	// End Problem 12
 
@@ -629,8 +676,8 @@ public class GrantVancePset2 {
 		System.out.println("You Win!");
 	}
 	// End Problem 13
-
 	
+
 
 
 
