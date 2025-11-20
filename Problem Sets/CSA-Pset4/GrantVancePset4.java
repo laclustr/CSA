@@ -20,22 +20,22 @@ public class GrantVancePset2 {
 	public static final Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		int[][] a, b;
-		a = new int[][] {{1, 2}, {1, 3}};
-		b = new int[][] {{4, 5}, {2, 1}};
-		print2d(addMatrices(a, b));
+		// int[][] a, b;
+		// a = new int[][] {{1, 2}, {1, 3}};
+		// b = new int[][] {{4, 5}, {2, 1}};
+		// print2d(addMatrices(a, b));
 
-		a = new int[][] {{1, 2}, {1, 3}};
-		b = new int[][] {{4, 5}, {2, 1}};
-		print2d(mulMatrices(a, b));
+		// a = new int[][] {{1, 2}, {1, 3}};
+		// b = new int[][] {{4, 5}, {2, 1}};
+		// print2d(mulMatrices(a, b));
 
-		a = new int[][] {{1, 2, 3}, {4, 5, 6}};
-		print2d(transposeMatrix(a));
+		// a = new int[][] {{1, 2, 3}, {4, 5, 6}};
+		// print2d(transposeMatrix(a));
 
-		a = new int[][] {{1, 2}, {3,4}};
-		b = new int[][] {{1, 0, 0}, {0, 3, 0}, {0, 0, 10}};
-		System.out.println(isDiagonal(a)); // false
-		System.out.println(isDiagonal(b)); // true
+		// a = new int[][] {{1, 2}, {3,4}};
+		// b = new int[][] {{1, 0, 0}, {0, 3, 0}, {0, 0, 10}};
+		// System.out.println(isDiagonal(a)); // false
+		// System.out.println(isDiagonal(b)); // true
 
 		// print2d(walkerPath(5));
 
@@ -51,7 +51,7 @@ public class GrantVancePset2 {
 
 		// slidePuzzle();
 
-		tw48();
+		// tw48();
 
 		// int[][] puzzle = {
 		// 	{5, 3, 0, 0, 7, 0, 0, 0, 0},
@@ -69,6 +69,15 @@ public class GrantVancePset2 {
 
 		// sudoku(puzzle);
 
+		// boolean[][] blackSquares = {
+		// 	{false, false, true, false},
+		// 	{false, false, false, false},
+		// 	{true, false, false, true},
+		// 	{false, false, false, false}
+		// };
+
+		// Crossword cw = new Crossword(blackSquares);
+		// System.out.println(cw);
 	}
 
 	private static void print2d(int[][] arr2) {
@@ -297,10 +306,22 @@ public class GrantVancePset2 {
 	}
 	// End Problem 8
 
+	private static boolean onEdge(String[][] grid, int[] coords, int n) {
+		int row = row(n, coords[1]);
+		int col = col(n, coords[0]);
+
+		if (
+			row == 0 || row == grid.length - 1 ||
+			col == 0 || col == grid[0].length - 1
+		) return true;
+
+		return false;
+	}
+
 	private static boolean selfWalk(int n) {
 		String[][] grid = grid(n);
 
-		int[] coords = new int[] {0, 0};
+		int[] coords = {0, 0};
 		grid[row(n, coords[1])][col(n, coords[0])] = "#";
 
 		while (inGrid(coords, n)) {
@@ -318,14 +339,12 @@ public class GrantVancePset2 {
 				}
 			}
 
-			if (validCount == 0) { return false;}
+			if (validCount == 0) return onEdge(grid, coords, n);
 
-			int[] direction = validDirections[RNG.nextInt(validCount)];
-			addIP(coords, direction);
+			int[] move = validDirections[RNG.nextInt(validCount)];
+			coords = add(coords, move);
 
-			if (inGrid(coords, n)) {
-				grid[row(n, coords[1])][col(n, coords[0])] = "#";
-			}
+			grid[row(n, coords[1])][col(n, coords[0])] = "#";
 		}
 		return true;
 	}
@@ -334,11 +353,11 @@ public class GrantVancePset2 {
 	public static double avgEscapeChance(int n) {
 		long total = 0;
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < TRIALS; i++) {
 			if (selfWalk(n)) total++;
 		}
 
-		return total / (float) 10;
+		return total / (float) TRIALS;
 	}
 	// End Problem 9
 
@@ -530,91 +549,190 @@ public class GrantVancePset2 {
 	}
 	// End Problem 11
 
-	// private static boolean has2048(int[][] board) {
-	// 	for (int[] row : board) {
-	// 		for (int n : row) {
-	// 			if (n >= 2048) return true;
-	// 		}
-	// 	}
-	// 	return false;
-	// }
+	private static int[][] revRows(int[][] board) {
+		int[][] rev = new int[board.length][board[0].length];
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length; j++) {
+				rev[i][j] = board[i][board[0].length - j - 1];
+			}
+		}
+		return rev;
+	}
 
-	// private static void spawnTile(int[][] board) {
-	// 	int val = RNG.next() < 0.9 ? 2 : 4;
+	private static boolean has2048(int[][] board) {
+		for (int[] row : board) {
+			for (int n : row) {
+				if (n >= 2048) return true;
+			}
+		}
+		return false;
+	}
 
-	// 	while (true) {
-	// 		int row = RNG.nextInt(board.length);
-	// 		int col = RNG.nextInt(board[0].length);
+	private static boolean boardFull(int[][] board) {
+		for (int[] row : board) {
+			for (int n : row) {
+				if (n == 0) return false;
+			}
+		}
+		return true;
+	}
 
-	// 		if (board[row][col] == 0) {
-	// 			board[row][col] == val;
-	// 			break;
-	// 		}
-	// 	}
-	// }
+	private static boolean noMoves(int[][] board) {
+		if (!boardFull(board)) return false;
 
-	// private static void printBoard(int[][] board, int score) {
-	// 	System.out.println("\nScore: " + score);
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length - 1; j++) {
+				if (board[i][j] == board[i][j + 1]) return false;
+			}
+		}
 
-	// 	for (int i = 0; i < board.length; i++) {
-	// 		if (i == 0) {
-	// 			System.out.println(mulStr("-", board[0].length * 3 - 2));
-	// 		}
-	// 		for (int j = 0; j < board[i].length; j++) {
-	// 			System.out.print(board[i][j] + " ");
-	// 		}
-	// 		System.out.println(("|"));
-	// 	}
-	// 	System.out.println(mulStr("-", board[0].length * 3 - 2));
-	// }
+		for (int j = 0; j < board[0].length; j++) {
+			for (int i = 0; i < board.length - 1; i++) {
+				if (board[i][j] == board[i + 1][j]) return false;
+			}
+		}
 
-	// private static int[] compress(int[] row) {
-	// 	int[] newRow = new int[row.length];
+		return true;
+	}
 
-	// 	int i = 0;
-	// 	for (int n : row) {
-	// 		if (n != 0) newRow[idx++] = n;
-	// 	}
+	private static void spawnTile(int[][] board) {
+		int val = RNG.nextDouble() < 0.9 ? 2 : 4;
 
-	// 	return newRow;
-	// }
+		while (true) {
+			int row = RNG.nextInt(board.length);
+			int col = RNG.nextInt(board[0].length);
 
-	// private static int[] merge(int[] row, int[] scoreHolder) {
-	// 	int[] newRow = row.clone();
+			if (board[row][col] == 0) {
+				board[row][col] = val;
+				break;
+			}
+		}
+	}
 
-	// 	for (int i = 0; i < newRow.length - 1; i++) {
-	// 		if (newRow[i] != 0 && newRow[i] = newRow[i + 1]) {
-	// 			newRow[i] *= 2;
-	// 			scoreHold
-	// 		}
-	// 	}
+	private static void printBoard(int[][] board, int score) {
+	System.out.println("\nScore: " + score);
+	int cellWidth = 5;
+	
+	String line = "-".repeat(board.length * cellWidth + board.length + 1);
 
-	// // Problem 12
-	// public static void tw48() {
-	// 	int[][] board = new int[BOARDSIZE][BOARDSIZE];
-	// 	int score = 0;
+	System.out.println(line);
 
-	// 	spawnTile(board);
-	// 	spawnTile(board);
+	for (int i = 0; i < board.length; i++) {
+		System.out.print("|");
+		for (int j = 0; j < board.length; j++) {
+			String s = board[i][j] == 0 ? " " : String.valueOf(board[i][j]);
+			int padding = (cellWidth - s.length()) / 2;
+			System.out.print(" ".repeat(padding) + s + " ".repeat(cellWidth - padding - s.length()) + "|");
+		}
+		System.out.println();
+		System.out.println(line);
+	}
+}
 
-	// 	while (!has2048(board)) {
-	// 		printBoard(board, score);
 
-	// 		System.out.print("Move (wasd): ");
-	// 		String move = scanner.nextLine().trim().toLowerCase();
-	// 		if (move.equals("")) continue;
+	private static int[] compress(int[] row) {
+		int[] newRow = new int[row.length];
 
-	// 		boolean moved = false;
+		int i = 0;
+		for (int n : row) {
+			if (n != 0) newRow[i++] = n;
+		}
 
-	// 		if (move.equals("w")) moved = moveUp(board);
-	// 		if (move.equals("a")) moved = moveLeft(board);
-	// 		if (move.equals("s")) moved = moveDown(board);
-	// 		if (move.equals("d")) moved = moveRight(board);
+		return newRow;
+	}
 
-	// 		if (moved) spawnTile(board);
-	// 		else System.out.println();
-	// 	}
-	// }
+	private static int[] merge(int[] row, int[] scoreHolder) {
+		int[] newRow = row.clone();
+
+		for (int i = 0; i < newRow.length - 1; i++) {
+			if (newRow[i] != 0 && newRow[i] == newRow[i + 1]) {
+				newRow[i] *= 2;
+				newRow[i + 1] = 0;
+				scoreHolder[0] += newRow[i];
+			}
+		}
+
+		return newRow;
+	}
+
+	private static boolean moveLeft(int[][] board, int[] score) {
+		boolean moved = false;
+		for (int i = 0; i < board.length; i++) {
+			int[] c = compress(board[i]);
+			int[] m = merge(c, score);
+			int[] f = compress(m);
+
+			if (!Arrays.equals(f, board[i])) moved = true;
+
+			board[i] = f;
+		}
+
+		return moved;
+	}
+
+	private static boolean moveRight(int[][] board, int[] score) {
+		int[][] r = revRows(board);
+		boolean moved = moveLeft(r, score);
+		int[][] f = revRows(r);
+
+		for (int i = 0; i < 4; i++) board[i] = f[i];
+
+		return moved;
+	}
+
+	private static boolean moveUp(int[][] board, int[] score) {
+		int[][] t = transposeMatrix(board);
+		boolean moved = moveLeft(t, score);
+		int[][] f = transposeMatrix(t);
+
+		for (int i = 0; i < 4; i++) board[i] = f[i];
+
+		return moved;
+	}
+
+	private static boolean moveDown(int[][] board, int[] score) {
+		int[][] t = transposeMatrix(board);
+		boolean moved = moveRight(t, score);
+		int[][] f = transposeMatrix(t);
+
+		for (int i = 0; i < 4; i++) board[i] = f[i];
+
+		return moved;
+	}
+
+	// Problem 12
+	public static void tw48() {
+		int[][] board = new int[BOARDSIZE][BOARDSIZE];
+		int[] score = {0};
+
+		spawnTile(board);
+		spawnTile(board);
+
+		while (!has2048(board)) {
+			if (noMoves(board)) {
+				printBoard(board, score[0]);
+				System.out.println("No moves left!\nScore: " + score[0]);
+				return;
+			}
+
+			printBoard(board, score[0]);
+
+			System.out.print("Move (wasd): ");
+			String move = scanner.nextLine().trim().toLowerCase();
+			if (move.equals("")) continue;
+
+			boolean moved = false;
+
+			if (move.equals("w")) moved = moveUp(board, score);
+			if (move.equals("a")) moved = moveLeft(board, score);
+			if (move.equals("s")) moved = moveDown(board, score);
+			if (move.equals("d")) moved = moveRight(board, score);
+
+			if (moved) spawnTile(board);
+		}
+
+		System.out.println("You Win!\nScore: " + score[0]);
+	}
 
 	// End Problem 12
 
