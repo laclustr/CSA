@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public class GrantVancePset2 {
 	public static final int TRIALS = 1000000;
@@ -78,6 +79,18 @@ public class GrantVancePset2 {
 
 		// Crossword cw = new Crossword(blackSquares);
 		// System.out.println(cw);
+		try {
+			KenKen kk = parsePuzzle(new File("KenKen.txt"));
+			int[][] grid = {
+				{1, 2, 4, 3},
+				{4, 3, 1, 2},
+				{3, 1, 2, 4},
+				{2, 4, 3, 1}
+			};
+			System.out.println(isSolved(grid, kk.getGroups()));
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+		}
 	}
 
 	private static void print2d(int[][] arr2) {
@@ -610,22 +623,22 @@ public class GrantVancePset2 {
 	}
 
 	private static void printBoard(int[][] board, int score) {
-	System.out.println("\nScore: " + score);
-	int cellWidth = 5;
-	
-	String line = "-".repeat(board.length * cellWidth + board.length + 1);
+		System.out.println("\nScore: " + score);
+		int cellWidth = 5;
+		
+		String line = "-".repeat(board.length * cellWidth + board.length + 1);
 
-	System.out.println(line);
-
-	for (int i = 0; i < board.length; i++) {
-		System.out.print("|");
-		for (int j = 0; j < board.length; j++) {
-			String s = board[i][j] == 0 ? " " : String.valueOf(board[i][j]);
-			int padding = (cellWidth - s.length()) / 2;
-			System.out.print(" ".repeat(padding) + s + " ".repeat(cellWidth - padding - s.length()) + "|");
-		}
-		System.out.println();
 		System.out.println(line);
+
+		for (int i = 0; i < board.length; i++) {
+			System.out.print("|");
+			for (int j = 0; j < board.length; j++) {
+				String s = board[i][j] == 0 ? " " : String.valueOf(board[i][j]);
+				int padding = (cellWidth - s.length()) / 2;
+				System.out.print(" ".repeat(padding) + s + " ".repeat(cellWidth - padding - s.length()) + "|");
+			}
+			System.out.println();
+			System.out.println(line);
 	}
 }
 
@@ -834,6 +847,139 @@ public class GrantVancePset2 {
 		}
 		System.out.println("You Win!");
 	}
+	// End Problem 13
 
-	// Problem 14 & 15 on separate files
+	// Problem 14 on separate files
+
+	private static KenKen parsePuzzle(File f) throws FileNotFoundException {
+		Scanner sc = new Scanner(f);
+
+		KenKen kk = new KenKen();
+
+		kk.setN(sc.nextInt());
+		kk.setNGroups(sc.nextInt());
+
+		sc.nextLine();
+
+		kk.setGroups(new Group[kk.getNGroups()]);
+
+		for (int i = 0; i < kk.getNGroups(); i++) {
+			String line = sc.nextLine().trim();
+			String[] parts = line.split(" ");
+
+			int opIdx = parts.length - 2;
+			int targetIdx = parts.length - 1;
+
+			char op = parts[opIdx].charAt(0);
+			int target = Integer.parseInt(parts[targetIdx]);
+
+			int cellCount = opIdx;
+			int[][] cells = new int[cellCount][2];
+
+			for (int j = 0; j < cellCount; j++) {
+				String[] rc = parts[j].split(",");
+				cells[j][0] = Integer.parseInt(rc[0]);
+				cells[j][1] = Integer.parseInt(rc[1]);
+			}
+
+			kk.setGroup(new Group(cells, op, target), i);
+		}
+
+		return kk;
+	}
+
+	private static boolean checkGroup(int[][] grid, Group group) {
+		int[][] cells = group.getCells();
+		int count = cells.length;
+		int[] vals = new int[count];
+
+		for (int i = 0; i < count; i++) {
+			int row = cells[i][0];
+			int col = cells[i][1];
+			vals[i] = grid[row][col];
+		}
+
+		char op = group.getOp();
+		int target = group.getTarget();
+
+		if (op == '+') {
+			int sum = 0;
+			for (int val : vals) sum += val;
+			return sum == target;
+		}
+
+		if (op == '*') {
+			int prod = 1;
+			for (int val : vals) prod *= val;
+			return prod == target;
+		}
+
+		if (count != 2) return false;
+
+		if (op == '-') return Math.abs(vals[0] - vals[1]) == target;
+
+		if (op == '/') {
+			return (
+				(vals[0] / vals[1] == target && vals[0] % vals[1] == 0) ||
+				(vals[1] / vals[0] == target && vals[1] % vals[0] == 0)
+			);
+		}
+
+		return false;
+	}
+
+	// Problem 15
+	public static boolean isSolved(int[][] grid, Group[] groups) {
+		int n = grid.length;
+
+		for (int row = 0; row < n; row++) {
+			boolean[] seen = new boolean[n + 1];
+			for (int col = 0; col < n; col++) {
+				int val = grid[row][col];
+				if (val < 1 || val > n || seen[val]) return false;
+				seen[val] = true;
+			}
+		}
+
+		for (int col = 0; col < n; col++) {
+			boolean[] seen = new boolean[n + 1];
+			for (int row = 0; row < n; row++) {
+				int val = grid[row][col];
+				if (val < 1 || val > n || seen[val]) return false;
+				seen[val] = true;
+			}
+		}
+
+		for (int i = 0; i < groups.length; i++) {
+			if (!checkGroup(grid, groups[i])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
