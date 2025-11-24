@@ -71,26 +71,23 @@ public class GrantVancePset2 {
 		// sudoku(puzzle);
 
 		// boolean[][] blackSquares = {
-		// 	{false, false, true, false},
+		// 	{false, false, true , false},
 		// 	{false, false, false, false},
-		// 	{true, false, false, true},
+		// 	{true,  false, false, true },
 		// 	{false, false, false, false}
 		// };
 
 		// Crossword cw = new Crossword(blackSquares);
 		// System.out.println(cw);
-		try {
-			KenKen kk = parsePuzzle(new File("KenKen.txt"));
-			int[][] grid = {
-				{1, 2, 4, 3},
-				{4, 3, 1, 2},
-				{3, 1, 2, 4},
-				{2, 4, 3, 1}
-			};
-			System.out.println(isSolved(grid, kk.getGroups()));
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
-		}
+
+		File kk = new File("KenKen.txt");
+		int[][] grid = {
+			{1, 2, 4, 3},
+			{4, 3, 1, 2},
+			{3, 1, 2, 4},
+			{2, 4, 3, 1}
+		};
+		System.out.println(isSolved(grid, kk));
 	}
 
 	private static void print2d(int[][] arr2) {
@@ -847,139 +844,67 @@ public class GrantVancePset2 {
 		}
 		System.out.println("You Win!");
 	}
-	// End Problem 13
 
 	// Problem 14 on separate files
 
-	private static KenKen parsePuzzle(File f) throws FileNotFoundException {
-		Scanner sc = new Scanner(f);
-
-		KenKen kk = new KenKen();
-
-		kk.setN(sc.nextInt());
-		kk.setNGroups(sc.nextInt());
-
-		sc.nextLine();
-
-		kk.setGroups(new Group[kk.getNGroups()]);
-
-		for (int i = 0; i < kk.getNGroups(); i++) {
-			String line = sc.nextLine().trim();
-			String[] parts = line.split(" ");
-
-			int opIdx = parts.length - 2;
-			int targetIdx = parts.length - 1;
-
-			char op = parts[opIdx].charAt(0);
-			int target = Integer.parseInt(parts[targetIdx]);
-
-			int cellCount = opIdx;
-			int[][] cells = new int[cellCount][2];
-
-			for (int j = 0; j < cellCount; j++) {
-				String[] rc = parts[j].split(",");
-				cells[j][0] = Integer.parseInt(rc[0]);
-				cells[j][1] = Integer.parseInt(rc[1]);
-			}
-
-			kk.setGroup(new Group(cells, op, target), i);
-		}
-
-		return kk;
-	}
-
-	private static boolean checkGroup(int[][] grid, Group group) {
-		int[][] cells = group.getCells();
-		int count = cells.length;
-		int[] vals = new int[count];
-
-		for (int i = 0; i < count; i++) {
-			int row = cells[i][0];
-			int col = cells[i][1];
-			vals[i] = grid[row][col];
-		}
-
-		char op = group.getOp();
-		int target = group.getTarget();
-
-		if (op == '+') {
-			int sum = 0;
-			for (int val : vals) sum += val;
-			return sum == target;
-		}
-
-		if (op == '*') {
-			int prod = 1;
-			for (int val : vals) prod *= val;
-			return prod == target;
-		}
-
-		if (count != 2) return false;
-
-		if (op == '-') return Math.abs(vals[0] - vals[1]) == target;
-
-		if (op == '/') {
-			return (
-				(vals[0] / vals[1] == target && vals[0] % vals[1] == 0) ||
-				(vals[1] / vals[0] == target && vals[1] % vals[0] == 0)
-			);
-		}
-
-		return false;
-	}
-
 	// Problem 15
-	public static boolean isSolved(int[][] grid, Group[] groups) {
-		int n = grid.length;
+	public static boolean isSolved(int[][] puzzle, File kk) {
+		try {
+			Scanner sc = new Scanner(kk);
+			int n = Integer.parseInt(sc.nextLine());
+			int numGroups = Integer.parseInt(sc.nextLine());
 
-		for (int row = 0; row < n; row++) {
-			boolean[] seen = new boolean[n + 1];
-			for (int col = 0; col < n; col++) {
-				int val = grid[row][col];
-				if (val < 1 || val > n || seen[val]) return false;
-				seen[val] = true;
+			for (int r = 0; r < n; r++) {
+				boolean[] seen = new boolean[n + 1];
+				for (int c = 0; c < n; c++) {
+					int v = puzzle[r][c];
+					if (v < 1 || v > n || seen[v]) return false;
+					seen[v] = true;
+				}
 			}
-		}
-
-		for (int col = 0; col < n; col++) {
-			boolean[] seen = new boolean[n + 1];
-			for (int row = 0; row < n; row++) {
-				int val = grid[row][col];
-				if (val < 1 || val > n || seen[val]) return false;
-				seen[val] = true;
+			for (int c = 0; c < n; c++) {
+				boolean[] seen = new boolean[n + 1];
+				for (int r = 0; r < n; r++) {
+					int v = puzzle[r][c];
+					if (v < 1 || v > n || seen[v]) return false;
+					seen[v] = true;
+				}
 			}
-		}
+			for (int i = 0; i < numGroups; i++) {
+				String[] parts = sc.nextLine().split(" ");
+				char op = parts[parts.length - 2].charAt(0);
+				int target = Integer.parseInt(parts[parts.length - 1]);
 
-		for (int i = 0; i < groups.length; i++) {
-			if (!checkGroup(grid, groups[i])) {
-				return false;
+				int cellCount = (parts.length - 2) / 2;
+
+				int[] vals = new int[cellCount];
+				int idx = 0;
+				for (int p = 0; p < cellCount * 2; p += 2) {
+					int r = Integer.parseInt(parts[p]);
+					int c = Integer.parseInt(parts[p + 1]);
+					vals[idx++] = puzzle[r][c];
+				}
+
+				if (op == '+') {
+					int sum = 0;
+					for (int v : vals) sum += v;
+					if (sum != target) return false;
+				}
+				else if (op == '*') {
+					int prod = 1;
+					for (int v : vals) prod *= v;
+					if (prod != target) return false;
+				}
+				else if (op == '/') {
+					int a = vals[0], b = vals[1];
+					if (!((a != 0 && b != 0 && (double)a / b == target) || (a != 0 && b != 0 && (double)b / a == target))) return false;
+				}
+				else return false;
 			}
-		}
-
+		sc.close();
 		return true;
+		} catch (FileNotFoundException e) {
+			return false;
+		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
