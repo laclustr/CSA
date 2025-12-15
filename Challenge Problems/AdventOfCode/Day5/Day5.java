@@ -26,18 +26,11 @@ public class Day5 {
 		}
 
 		public boolean overlaps(Range other) {
-			long overlapStart = Math.max(this.start, other.start);
-			long overlapEnd = Math.min(this.end, other.end);
-
-			if (overlapStart > overlapEnd) return true;
-			return false;
+			return this.start <= other.end && other.start <= this.end;
 		}
 
-		public Range getFullOverlap(Range other) {
-			if (this.overlap(other)) {
-				return new Range(Math.min(other.start, this.start), Math.max(other.end, this.end));
-			}
-			return null;
+		public Range merge(Range other) {
+			return new Range(Math.min(other.start, this.start), Math.max(other.end, this.end));
 		}
 
 		public long getDiff() {
@@ -110,11 +103,13 @@ public class Day5 {
 
 		ArrayList<Range> ranges = parsed.get(0);
 
-		long k = ranges.length() - 1;
+		ranges.sort((a, b) -> Long.compare(a.start, b.start));
+
+		long k = ranges.size() - 1;
 
 		for (int i = 0; i < k; i++) {
 			if (ranges.get(i).overlaps(ranges.get(i + 1))) {
-				ranges.set(i, ranges.get(i).getFullOverlap(ranges.get(i + 1)));
+				ranges.set(i, ranges.get(i).merge(ranges.get(i + 1)));
 				ranges.remove(i + 1);
 				k--;
 				i--;
