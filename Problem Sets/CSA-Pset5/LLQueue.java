@@ -1,7 +1,7 @@
 import java.util.*;
 
 @SuppressWarnings("unchecked")
-public class LLQueue {
+public class LLQueue<Item> {
 	private Node head;
 	private int n;
 
@@ -20,12 +20,17 @@ public class LLQueue {
 	}
 
 	public void enqueue(Item obj) {
+		n++;
+		if (head == null) {
+			head = new Node(obj, null);
+			return;
+		}
+
 		Node curr = head;
 
 		while (curr.next != null) {
 			curr = curr.next;
 		}
-		n++;
 		curr.next = new Node(obj, null);
 	} 
 
@@ -48,10 +53,10 @@ public class LLQueue {
 
 		Node curr = head;
 
-		while (curr.next != null) {
+		while (curr != null) {
 			sb.append(curr.data);
+			if (curr.next != null) sb.append(", ");
 			curr = curr.next;
-			sb.append(", ");
 		}
 		
 		sb.append("]");
