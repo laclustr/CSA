@@ -2,18 +2,8 @@ import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class LLStack<Item> {
-	private Node head;
+	private Node<Item> head;
 	private int n;
-
-	public class Node {
-		Item data;
-		Node next;
-
-		Node(Item data, Node next) {
-			this.data = data;
-			this.next = next;
-		}
-	}
 
 	public int size() {
 		return n;

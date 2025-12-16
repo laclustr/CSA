@@ -1,13 +1,4 @@
 public class LinkedList<Item> {
-	private class Node {
-		Node next;
-		Item data;
-
-		public Node(Item data) {
-			this.data = data;
-		}
-	}
-
 	private Node head;
 	private int n;
 

@@ -72,5 +72,19 @@ public class Runner {
 		System.out.println(adQueue.removeFirst());
 		System.out.println(adQueue.removeLast());
 		System.out.println(adQueue.removeFirst());
+
+		// -----------------------------------------------------------------------------
+
+		LLDeque<Integer> llQueue = new LLDeque<>();
+
+		llQueue.addLast(1);
+		llQueue.addFirst(2);
+		llQueue.addLast(3);
+
+		System.out.println(llQueue);
+
+		System.out.println(llQueue.removeFirst());
+		System.out.println(llQueue.removeLast());
+		System.out.println(llQueue.removeFirst());
 	}
 }
