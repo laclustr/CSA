@@ -1,6 +1,6 @@
 public class Node<Item> {
-	public Node prev;
-	public Node next;
+	public Node<Item> prev;
+	public Node<Item> next;
 	public Item data;
 
 	public Node(Item data) {

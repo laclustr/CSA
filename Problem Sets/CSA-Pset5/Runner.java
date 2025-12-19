@@ -61,30 +61,59 @@ public class Runner {
 
 		// -----------------------------------------------------------------------------
 
-		ArrayDeque<Integer> adQueue = new ArrayDeque<>();
+		ArrayDeque<Integer> aDeque = new ArrayDeque<>();
 
-		adQueue.addLast(1);
-		adQueue.addFirst(2);
-		adQueue.addLast(3);
+		aDeque.addLast(1);
+		aDeque.addFirst(2);
+		aDeque.addLast(3);
 
-		System.out.println(adQueue);
+		System.out.println(aDeque);
 
-		System.out.println(adQueue.removeFirst());
-		System.out.println(adQueue.removeLast());
-		System.out.println(adQueue.removeFirst());
+		System.out.println(aDeque.removeFirst());
+		System.out.println(aDeque.removeLast());
+		System.out.println(aDeque.removeFirst());
 
 		// -----------------------------------------------------------------------------
 
-		LLDeque<Integer> llQueue = new LLDeque<>();
+		LLDeque<Integer> llDeque = new LLDeque<>();
 
-		llQueue.addLast(1);
-		llQueue.addFirst(2);
-		llQueue.addLast(3);
+		llDeque.addLast(1);
+		llDeque.addFirst(2);
+		llDeque.addLast(3);
 
-		System.out.println(llQueue);
+		System.out.println(llDeque);
 
-		System.out.println(llQueue.removeFirst());
-		System.out.println(llQueue.removeLast());
-		System.out.println(llQueue.removeFirst());
+		System.out.println(llDeque.removeFirst());
+		System.out.println(llDeque.removeLast());
+		System.out.println(llDeque.removeFirst());
+
+		// -----------------------------------------------------------------------------
+
+		aArrayList<Integer> aaList = new aArrayList<>();
+
+		aaList.add(1);
+		aaList.add(1, 2);
+		aaList.add(3);
+
+		System.out.println(aaList);
+
+		System.out.println(aaList.get(0));
+		System.out.println(aaList.set(1, 4));
+		System.out.println(aaList.remove(1));
+
+		// -----------------------------------------------------------------------------
+
+		llArrayList<Integer> llAList = new llArrayList<>();
+
+		llAList.add(1);
+		llAList.add(1, 2);
+		llAList.add(3);
+
+		System.out.println(llAList);
+
+		System.out.println(llAList.get(0));
+		System.out.println(llAList.set(1, 4));
+		System.out.println(llAList.remove(1));
+
 	}
 }

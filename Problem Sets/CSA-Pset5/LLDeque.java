@@ -1,7 +1,7 @@
 import java.util.*;
 
 @SuppressWarnings("unchecked")
-public class ArrayDeque<Item> {
+public class LLDeque<Item> {
 	Node<Item> head, tail;
 	int n;
 
@@ -11,32 +11,50 @@ public class ArrayDeque<Item> {
 
 	public void addFirst(Item i) {
 		Node<Item> newNode = new Node(i, head);
+
+		if (n == 0) tail = newNode;
+		else head.prev = newNode;
+
 		head = newNode;
 		n++;
 	}
 
 	public void addLast(Item i) {
 		Node<Item> newNode = new Node(i, null, tail);
-		tail.next = newNode;
-		n++
+
+		if (n == 0) head = newNode;
+		else tail.next = newNode;
+
+		tail = newNode;
+		n++;
 	}
 
 	public Item removeFirst() {
 		if (n == 0) return null;
-		Node<Item> node = head;
-		head.next.prev = null;
+		
+		Item data = head.data;
 		head = head.next;
+
 		n--;
 
-		return node.data;
+		if (n == 0) tail = null;
+		else head.prev = null;
+
+		return data;
 	}
 
 	public Item removeLast() {
-		Node<Item> node = tail;
-		tail = tail.prev;
-		tail.prev.next = null;
+		if (n == 0) return null;
 
-		return node.data;
+		Item data = tail.data;
+		tail = tail.prev;
+		
+		n--;
+
+		if (n == 0) head = null;
+		else tail.next = null;
+
+		return data;
 	}
 
 	public String toString() {
