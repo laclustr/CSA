@@ -10,7 +10,7 @@ public class LLDeque<Item> {
 	}
 
 	public void addFirst(Item i) {
-		Node<Item> newNode = new Node(i, head);
+		Node<Item> newNode = new Node<>(i, head);
 
 		if (n == 0) tail = newNode;
 		else head.prev = newNode;
@@ -20,7 +20,7 @@ public class LLDeque<Item> {
 	}
 
 	public void addLast(Item i) {
-		Node<Item> newNode = new Node(i, null, tail);
+		Node<Item> newNode = new Node<>(i, null, tail);
 
 		if (n == 0) head = newNode;
 		else tail.next = newNode;

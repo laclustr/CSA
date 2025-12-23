@@ -1,10 +1,12 @@
 import java.util.*;
 
 @SuppressWarnings("unchecked")
-public class ArrayQueue<Item> {
-	Item[] queue = (Item[]) new Object[2];
-	int head = 0;
-	int n = 0;
+public class ARandomizedQueue<Item> {
+	private Item[] queue = (Item[]) new Object[2];
+	private int head = 0;
+	private int n = 0;
+
+	private Random RNG = new Random();
 
 	public int size() {
 		return n;
@@ -29,9 +31,29 @@ public class ArrayQueue<Item> {
 	public Item dequeue() {
 		if (n == 0) return null;
 
-		Item item = queue[head];
-		queue[head] = null;
-		head = (head + 1) % queue.length;
+		int idx = RNG.nextInt(n);
+		Item item;
+
+		if (idx == 0) {
+			item = queue[head];
+			head = (head + 1) % queue.length;
+		}
+		else {
+			int removeIdx = (head + idx) % queue.length;
+			item = queue[removeIdx];
+			
+			for (
+				int i = removeIdx; 
+				i != (head + n - 1) % queue.length; 
+				i = (i + 1) % queue.length
+			) {
+				queue[i] = queue[(i + 1) % queue.length];
+			}
+			head = (head + 1) % queue.length;
+		}
+
+		queue[(head + n - 1) % queue.length] = null;
+
 		n--;
 
 		if (n > 0 && n == queue.length / 4) resize(queue.length / 2);
@@ -39,9 +61,10 @@ public class ArrayQueue<Item> {
 		return item;
 	}
 
-	public Item peek() {
+	public Item sample() {
 		if (n == 0) return null;
-		return queue[head];
+		int idx = RNG.nextInt(n);
+		return queue[(head + idx) % queue.length];
 	}
 
 	public String toString() {

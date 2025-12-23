@@ -1,7 +1,7 @@
 import java.util.*;
 
 @SuppressWarnings("unchecked")
-public class aArrayList<Item> {
+public class AArrayList<Item> {
 	private Item[] list = (Item[]) new Object[2];
 	private int n;
 

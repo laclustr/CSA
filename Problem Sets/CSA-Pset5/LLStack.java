@@ -10,7 +10,7 @@ public class LLStack<Item> {
 	}
 
 	public void push(Item object) {
-		head = new Node(object, head);
+		head = new Node<>(object, head);
 		n++;
 	}
 
@@ -32,7 +32,7 @@ public class LLStack<Item> {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
-		Node curr = head;
+		Node<Item> curr = head;
 		while (curr != null) {
 			sb.append(curr.data);
 			if (curr.next != null) sb.append(", ");

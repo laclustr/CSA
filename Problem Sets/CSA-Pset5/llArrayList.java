@@ -1,7 +1,7 @@
 import java.util.*;
 
 @SuppressWarnings("unchecked")
-public class llArrayList<Item> {
+public class LLArrayList<Item> {
 	private Node<Item> head;
 	private int n;
 

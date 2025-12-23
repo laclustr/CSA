@@ -1,3 +1,5 @@
+import java.util.*;
+
 @SuppressWarnings("unchecked")
 public class Runner {
 	public static void main(String[] args) {
@@ -89,7 +91,7 @@ public class Runner {
 
 		// -----------------------------------------------------------------------------
 
-		aArrayList<Integer> aaList = new aArrayList<>();
+		AArrayList<Integer> aaList = new AArrayList<>();
 
 		aaList.add(1);
 		aaList.add(1, 2);
@@ -103,7 +105,7 @@ public class Runner {
 
 		// -----------------------------------------------------------------------------
 
-		llArrayList<Integer> llAList = new llArrayList<>();
+		LLArrayList<Integer> llAList = new LLArrayList<>();
 
 		llAList.add(1);
 		llAList.add(1, 2);
@@ -115,5 +117,78 @@ public class Runner {
 		System.out.println(llAList.set(1, 4));
 		System.out.println(llAList.remove(1));
 
+		// -----------------------------------------------------------------------------
+
+		ARandomizedQueue<Integer> aRandQueue = new ARandomizedQueue<>();
+
+		aRandQueue.enqueue(1);
+		aRandQueue.enqueue(2);
+		aRandQueue.enqueue(3);
+
+		System.out.println(aRandQueue);
+
+		System.out.println(aRandQueue.dequeue());
+		System.out.println(aRandQueue.dequeue());
+		System.out.println(aRandQueue.sample());
+		System.out.println(aRandQueue.dequeue());
+
+		// -----------------------------------------------------------------------------
+
+		LLRandomizedQueue<Integer> llRandQueue = new LLRandomizedQueue<>();
+
+		llRandQueue.enqueue(1);
+		llRandQueue.enqueue(2);
+		llRandQueue.enqueue(3);
+
+		System.out.println(llRandQueue);
+
+		System.out.println(llRandQueue.dequeue());
+		System.out.println(llRandQueue.dequeue());
+		System.out.println(llRandQueue.sample());
+		System.out.println(llRandQueue.dequeue());
+
+		// -----------------------------------------------------------------------------
+
+		System.out.println(removeDuplicates(new ArrayList<>(Arrays.asList(1, 2, 3, 2, 1, 5)))); // [1, 2, 3, 5]
+		System.out.println(removeDuplicates(new ArrayList<>(Arrays.asList(1, 1, 1, 1, 2, 3)))); // [1, 2, 3]
+	
+		// -----------------------------------------------------------------------------
+
+		System.out.println(isBalanced("()"));     // true
+		System.out.println(isBalanced("({[]})")); // true
+		System.out.println(isBalanced("{)(}"));	  // false
+		System.out.println(isBalanced("([)]"));	  // false
+		System.out.println(isBalanced("((("));	  // false
 	}
+
+	public static <Item> ArrayList<Item> removeDuplicates(ArrayList<Item> list) {
+		HashSet<Item> seen = new HashSet<>();
+
+		for (int i = 0; i < list.size(); i++) {
+			if (seen.contains(list.get(i))) list.remove(i--);
+			else seen.add(list.get(i));
+		}
+
+		return list;
+	}
+
+	public static boolean isBalanced(String str) {
+		LLStack<Character> stack = new LLStack<>();
+
+		Map<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put('}', '{');
+        map.put(']', '[');
+
+		for (char c : str.toCharArray()) {
+			if (map.containsValue(c)) stack.push(c);
+			else if (map.containsKey(c)) {
+				if (stack.size() <= 0) return false;
+
+				if (stack.pop() != map.get(c)) return false;
+			}
+		}
+
+		return stack.size() == 0;
+	} 
 }

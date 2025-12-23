@@ -12,16 +12,16 @@ public class LLQueue<Item> {
 	public void enqueue(Item obj) {
 		n++;
 		if (head == null) {
-			head = new Node(obj, null);
+			head = new Node<>(obj, null);
 			return;
 		}
 
-		Node curr = head;
+		Node<Item> curr = head;
 
 		while (curr.next != null) {
 			curr = curr.next;
 		}
-		curr.next = new Node(obj, null);
+		curr.next = new Node<>(obj, null);
 	} 
 
 	public Item dequeue() {
@@ -41,7 +41,7 @@ public class LLQueue<Item> {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
 
-		Node curr = head;
+		Node<Item> curr = head;
 
 		while (curr != null) {
 			sb.append(curr.data);
