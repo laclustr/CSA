@@ -159,6 +159,13 @@ public class Runner {
 		System.out.println(isBalanced("{)(}"));	  // false
 		System.out.println(isBalanced("([)]"));	  // false
 		System.out.println(isBalanced("((("));	  // false
+
+		// -----------------------------------------------------------------------------
+
+		System.out.println(evaluate("( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) )")); // 101
+		System.out.println(evaluate("(sqrt(((7 * 3) + (6 - 2))))")); // 5
+		System.out.println(evaluate("(2 + 1.5)")); // 3.5
+
 	}
 
 	public static <Item> ArrayList<Item> removeDuplicates(ArrayList<Item> list) {
@@ -176,9 +183,9 @@ public class Runner {
 		LLStack<Character> stack = new LLStack<>();
 
 		Map<Character, Character> map = new HashMap<>();
-        map.put(')', '(');
-        map.put('}', '{');
-        map.put(']', '[');
+		map.put(')', '(');
+		map.put('}', '{');
+		map.put(']', '[');
 
 		for (char c : str.toCharArray()) {
 			if (map.containsValue(c)) stack.push(c);
@@ -191,4 +198,50 @@ public class Runner {
 
 		return stack.size() == 0;
 	} 
+
+	public static double evaluate(String str) {
+		str = str
+		.replaceAll("sqrt", " sqrt ")
+		.replaceAll("\\(", " ( ")
+		.replaceAll("\\)", " ) ")
+		.replaceAll("\\+", " + ")
+		.replaceAll("-", " - ")
+		.replaceAll("\\*", " * ")
+		.replaceAll("/", " / ")
+		.trim();
+
+		String[] chars = str.trim().split("\\s+");
+
+		LLStack<String> ops = new LLStack<>();
+		LLStack<Double> vals = new LLStack<>();
+
+		for (String c : chars) {
+			if (c.equals("(")) continue;
+			else if (c.equals("+") || c.equals("-") ||
+					c.equals("*") || c.equals("/") ||
+					c.equals("sqrt"))
+			ops.push(c);
+			else if (c.equals(")")) {
+				String op = ops.pop();
+				if (op == null) continue; 
+				double res = 0;
+
+				if (op.equals("sqrt")) {
+					res = Math.sqrt(vals.pop());
+				} else {
+					double b = vals.pop();
+					double a = vals.pop();
+
+					if (op.equals("+")) res = a + b;
+					else if (op.equals("-")) res = a - b;
+					else if (op.equals("*")) res = a * b;
+					else if (op.equals("/")) res = a / b;
+				}
+				vals.push(res);
+			} else vals.push(Double.parseDouble(c));
+		}
+
+		return vals.pop();
+	}
+
 }
