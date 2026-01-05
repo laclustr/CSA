@@ -1,4 +1,8 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class Runner {
@@ -166,8 +170,100 @@ public class Runner {
 		System.out.println(evaluate("(sqrt(((7 * 3) + (6 - 2))))")); // 5
 		System.out.println(evaluate("(2 + 1.5)")); // 3.5
 
+		// -----------------------------------------------------------------------------
+
+		System.out.println(evaluateRPN("3 4 -"));            // -1
+		System.out.println(evaluateRPN("3 4 + 5 6 + *"));    // 77
+		System.out.println(evaluateRPN("13 12 + sqrt"));    // 5
+		System.out.println(evaluateRPN("13 12 + 7 +"));     // 32
+
+		// -----------------------------------------------------------------------------
+
+		LinkedList<Integer> list3 = new LinkedList<>();
+		list3.add(1);
+		list3.add(2);
+		list3.add(3);
+		list3.add(4);
+		System.out.println(list3.getMiddle()); // 3
+
+		// -----------------------------------------------------------------------------
+
+		LinkedList<Integer> list5 = new LinkedList<>();
+		list5.add(1);
+		list5.add(2);
+		list5.add(3);
+		list5.reverse();
+		System.out.println(list5.getMiddle()); // 2
+
+		LinkedList<Integer> list6 = new LinkedList<>();
+		list6.add(10);
+		list6.reverse();
+		System.out.println(list6.getMiddle()); // 10
+
+		// -----------------------------------------------------------------------------
+
+		LinkedList<Integer> list7 = new LinkedList<>();
+		list7.add(1);
+		list7.add(2);
+		list7.add(2);
+		list7.add(3);
+		list7.removeAll(2);
+		System.out.println(list7.size());      // 2
+		System.out.println(list7.getMiddle()); // 3
+
+		LinkedList<Integer> list8 = new LinkedList<>();
+		list8.add(2);
+		list8.add(2);
+		list8.add(3);
+		list8.removeAll(2);
+		System.out.println(list8.size());      // 1
+		System.out.println(list8.getMiddle()); // 3
+
+		// -----------------------------------------------------------------------------
+
+		LinkedList<Integer> list9 = new LinkedList<>();
+		list9.add(1);
+		list9.add(2);
+		list9.add(3);
+		list9.add(4);
+		list9.swapInPairs();
+		System.out.println(list9.getMiddle()); // 4
+
+		LinkedList<Integer> list10 = new LinkedList<>();
+		list10.add(1);
+		list10.add(2);
+		list10.add(3);
+		list10.swapInPairs();
+		System.out.println(list10.getMiddle()); // 1
+
+		// -----------------------------------------------------------------------------
+
+		LinkedList<Integer> a = new LinkedList<>();
+		a.add(1);
+		a.add(3);
+		a.add(5);
+
+		LinkedList<Integer> b = new LinkedList<>();
+		b.add(2);
+		b.add(4);
+		b.add(6);
+
+		LinkedList<Integer> merged1 = LinkedList.merge(a, b);
+		System.out.println(merged1.size());      // 6
+		System.out.println(merged1.getMiddle()); // 4
+
+		LinkedList<Integer> c = new LinkedList<>();
+		LinkedList<Integer> d = new LinkedList<>();
+		d.add(1);
+		d.add(2);
+
+		LinkedList<Integer> merged2 = LinkedList.merge(c, d);
+		System.out.println(merged2.size());      // 2
+		System.out.println(merged2.getMiddle()); // 2
+
 	}
 
+	// Problem 11
 	public static <Item> ArrayList<Item> removeDuplicates(ArrayList<Item> list) {
 		HashSet<Item> seen = new HashSet<>();
 
@@ -179,6 +275,7 @@ public class Runner {
 		return list;
 	}
 
+	// Problem 12
 	public static boolean isBalanced(String str) {
 		LLStack<Character> stack = new LLStack<>();
 
@@ -199,6 +296,7 @@ public class Runner {
 		return stack.size() == 0;
 	} 
 
+	// Problem 13
 	public static double evaluate(String str) {
 		str = str
 		.replaceAll("sqrt", " sqrt ")
@@ -243,5 +341,44 @@ public class Runner {
 
 		return vals.pop();
 	}
+	// End Problem 13
 
+	public static boolean isNumber(String s) {
+		try {
+			Double.parseDouble(s);
+			return true;
+		}
+		catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
+	// Problem 14
+	public static double evaluateRPN(String s) {
+		LLStack<Double> operands = new LLStack<>();
+		String[] vals = s.split("\\s+");
+		for (int i = 0; i < vals.length; i++) {
+			String c = vals[i];
+			if (isNumber(c)) {
+				operands.push(Double.parseDouble(c));
+			}
+			else if (c.equals("+") || c.equals("-") || c.equals("*") || c.equals("/")) {
+				String op = String.valueOf(c);
+
+				double b = operands.pop();
+				double d = operands.pop();
+
+				if (op.equals("+")) operands.push(d + b);
+				if (op.equals("-")) operands.push(d - b);
+				if (op.equals("*")) operands.push(d * b);
+				if (op.equals("/")) operands.push(d / b);
+			}
+
+			else if (c.equals("sqrt")) {
+				double v = operands.pop();
+				operands.push(Math.sqrt(v));
+			}
+		}
+		return operands.pop();
+	}
 }
