@@ -105,19 +105,18 @@ public class MazeSolver {
 	private void tracePath(IntPair end) {
 		IntPair curr = end;
 
-		while (curr != null && !(curr.x == start.x && curr.y == start.y)) {
+		while (curr != null && !curr.equals(start)) {
 			if (!maze[curr.x][curr.y].equals("B")) maze[curr.x][curr.y] = "*";
 
 			curr = parents[curr.x][curr.y];
 		}
 	}
 
-	/* Use Breadth First Search to solve the maze from A to B */
-	public void solveBFS() {
-		while (!queue.isEmpty()) {
-			IntPair curr = queue.remove();
+	private void solveSearch(boolean BFS) {
+		while (!(BFS ? queue.isEmpty() : stack.isEmpty())) {
+			IntPair curr = BFS ? queue.remove() : stack.pop();
 
-			if (curr.x == end.x && curr.y == end.y) break;
+			if (curr.equals(end)) break;
 
 			for (int[] dir : DIRS) {
 				int dx = curr.x + dir[0];
@@ -126,7 +125,9 @@ public class MazeSolver {
 				if (inMaze(dx, dy) && !visited[dx][dy] && !maze[dx][dy].equals("#")) {
 					visited[dx][dy] = true;
 					parents[dx][dy] = curr;
-					queue.add(new IntPair(dx, dy));
+
+					if (BFS) queue.add(new IntPair(dx, dy));
+					else stack.add(new IntPair(dx, dy));
 				}
 			}
 		}
@@ -134,26 +135,14 @@ public class MazeSolver {
 		tracePath(end);
 	}
 
+	/* Use Breadth First Search to solve the maze from A to B */
+	public void solveBFS() {
+		solveSearch(true);
+	}
+
 	/* Use Depth First Search to solve the maze from A to B */
 	public void solveDFS() {
-		while (!stack.isEmpty()) {
-			IntPair curr = stack.pop();
-
-			if (curr.x == end.x && curr.y == end.y) break;
-
-			for (int[] dir : DIRS) {
-				int dx = curr.x + dir[0];
-				int dy = curr.y + dir[1];
-
-				if (inMaze(dx, dy) && !visited[dx][dy] && !maze[dx][dy].equals("#")) {
-					visited[dx][dy] = true;
-					parents[dx][dy] = curr;
-					stack.add(new IntPair(dx, dy));
-				}
-			}
-		}
-
-		tracePath(end);
+		solveSearch(false);
 	}
 
 	/* Use A* Search to solve the maze from A to B */

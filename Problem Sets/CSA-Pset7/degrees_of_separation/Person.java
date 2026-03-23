@@ -20,7 +20,7 @@ public class Person {
 		return year;
 	}
 
-	public Set getMovies() {
+	public Set<Integer> getMovies() {
 		return movies;
 	}
 
