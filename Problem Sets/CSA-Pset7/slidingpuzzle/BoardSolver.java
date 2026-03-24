@@ -120,7 +120,6 @@ public class BoardSolver {
 			seen.add(curr.state);
 
 			for (Board child : curr.children) {
-				if (curr.parent != null && child.equals(curr.parent.state)) continue;
 				if (!seen.contains(child)) {
 					frontier.add(new SearchNode(child, curr.nSteps + 1, curr));
 				}

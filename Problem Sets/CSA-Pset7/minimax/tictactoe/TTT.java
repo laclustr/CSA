@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class TTT {
 	private String[][] board = new String[3][3];
@@ -44,18 +44,31 @@ public class TTT {
 			System.out.println(currPlayer.equals(player) ? player + "'s Turn" : "Computer Thinking...");
 			System.out.println(this);
 
-			int r, c;
+			int r = 0, c = 0;
 
 			if (currPlayer.equals(player)) {
-				do {
+				while (true) {
 					System.out.print("Enter your move: ");
-					r = sc.nextInt();
-					c = sc.nextInt();
-				} while (board[r][c] != "");
+					try {
+						r = sc.nextInt();
+						c = sc.nextInt();
+						sc.nextLine();
+
+						if (r >= 0 && r < 3 && c >= 0 && c < 3 && board[r][c].equals("")) {
+							break;
+						}
+
+						System.out.println("Invalid move. Try again.");
+					}
+					catch (InputMismatchException ex) {
+						System.out.println("Invalid input. Enter (row) (col)");
+						sc.nextLine();
+					}
+				}
 			}
 			else {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(100);
 				}
 				catch (InterruptedException e) {
 					System.out.println("You probably shouldn't be seeing this... " + e.getMessage());
