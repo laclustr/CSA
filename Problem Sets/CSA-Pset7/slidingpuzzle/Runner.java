@@ -3,7 +3,8 @@ import java.util.Scanner;
 public class Runner {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int[][] board = new int[sc.nextInt()][sc.nextInt()];
+		int n = sc.nextInt();
+		int[][] board = new int[n][n];
 
 		int i = 0;
 		int counter = 0;

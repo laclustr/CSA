@@ -42,10 +42,11 @@ public class Board {
 	public boolean equals(Object o) {
 		if (o == null) return false;
 		Board other = (Board) o;
+		int[][] otherBoard = other.getBoard();
 
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
-				if (board[i][j] != other[i][j]) 
+				if (board[i][j] != otherBoard[i][j]) 
 					return false;
 			}
 		}
