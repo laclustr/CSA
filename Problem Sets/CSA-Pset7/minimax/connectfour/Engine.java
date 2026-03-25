@@ -2,7 +2,7 @@ public class Engine {
 	private String[][] board;
 	private String piece;
 	private String opp;
-	private static int DEPTH = 10;
+	private static final int DEPTH = 7;
 
 	public Engine(String[][] board, String piece) {
 		this.board = board;
@@ -16,12 +16,12 @@ public class Engine {
 	 */
 	public int getMove() {
 		int bestScore = Integer.MIN_VALUE;
-		int bestMove = 0;
+		int bestMove = -1;
 		for (int i = 0; i < board[0].length; i++) {
 			int r = getRow(i);
 			if (r < 0) continue;
 			board[r][i] = piece;
-			int score = min(Integer.MIN_VALUE, Integer.MAX_VALUE, DEPTH); // depth 6
+			int score = min(Integer.MIN_VALUE, Integer.MAX_VALUE, DEPTH - 1);
 			board[r][i] = "";
 			if (score > bestScore) {
 				bestScore = score;
@@ -33,8 +33,8 @@ public class Engine {
 
 	private int max(int a, int b, int depth) {
 		String res = checkWinner();
-		if (res != null) return score(res);
-		if (depth == 0) return 0;          // depth cutoff
+		if (res != null) return score(res, depth);
+		if (depth == 0) return 0;
 		int best = Integer.MIN_VALUE;
 		for (int i = 0; i < board[0].length; i++) {
 			int r = getRow(i);
@@ -51,8 +51,8 @@ public class Engine {
 
 	private int min(int a, int b, int depth) {
 		String res = checkWinner();
-		if (res != null) return score(res);
-		if (depth == 0) return 0;          // depth cutoff
+		if (res != null) return score(res, depth);
+		if (depth == 0) return 0;
 		int worst = Integer.MAX_VALUE;
 		for (int i = 0; i < board[0].length; i++) {
 			int r = getRow(i);
@@ -73,10 +73,10 @@ public class Engine {
 		return -1;
 	}
 
-	private int score(String res) {
-		if (res.equals(piece)) return 1;
+	private int score(String res, int depth) {
+		if (res.equals(piece)) return DEPTH + depth;
 		if (res.equals("tie")) return 0;
-		return -1;
+		return -(DEPTH + depth);
 	}
 
 	private String checkWinner() {
