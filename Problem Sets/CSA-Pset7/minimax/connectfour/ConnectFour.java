@@ -8,6 +8,10 @@ public class ConnectFour {
 	private static Scanner sc = new Scanner(System.in);
 	private Engine e;
 
+	private static final String WHITE = "\u001B[0m";
+	private static final String RED = "\u001B[31m";
+	private static final String YELLOW = "\u001B[33m";
+
 	public ConnectFour(String player) {
 		this.player = player;
 		ai = player.equals("X") ? "O" : "X";
@@ -23,17 +27,32 @@ public class ConnectFour {
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder("");
+
 		for (int i = 0; i < board.length; i++) {
 			sb.append(" | ");
 			for (int j = 0; j < board[0].length; j++) {
-				String piece = board[i][j].equals("") ? " " : board[i][j];
+
+				String piece = board[i][j];
+
+				if (piece.equals("X")) {
+					piece = RED + "●" + WHITE;
+				}
+				else if (piece.equals("O")) {
+					piece = YELLOW + "●" + WHITE;
+				}
+				else {
+					piece = " ";
+				}
+
 				sb.append(" " + piece + " ");
 				sb.append(" | ");
 			}
 			sb.append("\n");
 		}
+
 		for (int i = 0; i < 45; i++) sb.append("=");
 		sb.append("\n");
+
 		for (int i = 0; i < board[0].length; i++) {
 			sb.append("    " + i + " ");
 		}
@@ -59,7 +78,7 @@ public class ConnectFour {
 			}
 			else {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(100);
 				}
 				catch (InterruptedException e) {
 					System.out.println("You probably shouldn't be seeing this... " + e.getMessage());
